@@ -7,7 +7,7 @@
         loadGrid();
 
         $("#a_Add").bind("click", function () {
-            window.parent.addPanel('新增角色', 'Base_Role/Edit')
+            window.parent.addPanel('新增角色', '/Base_Role/Edit')
         });
 
         $("#a_Delete").bind("click", function () {
@@ -53,7 +53,7 @@
                 { field: 'Creater', title: '创建人', align: 'center', width: 200 }
             ]],
             onDblClickRow: function (index, row) {
-                window.parent.addPanel(row.Name + "--角色编辑", 'Base_Role/Edit/' + row.ID);
+                window.parent.addPanel(row.Name + "--角色编辑", '/Base_Role/Edit/' + row.ID);
             }
         });
     }

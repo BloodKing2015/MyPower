@@ -70,7 +70,7 @@
                 }
             ]],
             onDblClickRow: function (index, row) {
-                window.parent.addPanel(row.Name + "--用户编辑", 'Base_Usr/Edit/' + row.ID);
+                window.parent.addPanel(row.Name + "--用户编辑", '/Base_Usr/Edit/' + row.ID);
             }
         });
     }
@@ -79,7 +79,7 @@
     function BindEvent(deptId) {
         $("#a_Add").unbind("click");
         $("#a_Add").bind("click", function () {
-            window.parent.addPanel('新增用户', 'Base_Usr/Edit')
+            window.parent.addPanel('新增用户', '/Base_Usr/Edit')
         });
 
     }

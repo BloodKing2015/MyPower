@@ -8,7 +8,7 @@
         loadDept();
 
         $("#a_Add").bind("click", function () {
-            window.parent.addPanel('新增字典', 'Base_Department/Edit')
+            window.parent.addPanel('新增字典', '/Base_Department/Edit')
         });
 
         $("#a_Delete").bind("click", function () {
@@ -49,7 +49,7 @@
                 { field: 'Creater', title: '创建人', align: 'center', width: 200 }
             ]],
             onDblClickRow: function (row) {
-                window.parent.addPanel(row.Name + "--字典编辑", 'Base_Department/Edit/' + row.ID);
+                window.parent.addPanel(row.Name + "--字典编辑", '/Base_Department/Edit/' + row.ID);
             }
         });
     }

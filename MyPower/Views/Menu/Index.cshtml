@@ -6,7 +6,7 @@
     $(function () {
         $('#tgrid').treegrid({
             onDblClickRow: function (row) {
-                window.parent.addPanel(row.Name+"--编辑", 'Menu/Edit/' + row.id);
+                window.parent.addPanel(row.Name+"--编辑", '/Menu/Edit/' + row.id);
             }
         });
     })

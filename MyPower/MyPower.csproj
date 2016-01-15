@@ -187,12 +187,15 @@
     <Compile Include="Models\DicModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\UsrLoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="css\style.css" />
+    <Content Include="Index.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -867,6 +870,8 @@
     <Content Include="jquery-easyui-1.4.4\themes\metro\validatebox.css" />
     <Content Include="jquery-easyui-1.4.4\themes\metro\window.css" />
     <Content Include="jquery-easyui-1.4.4\themes\mobile.css" />
+    <Content Include="js\index.js" />
+    <Content Include="js\jquery.js" />
     <Content Include="Lodop\install_lodop32.exe" />
     <Content Include="Lodop\install_lodop64.exe" />
     <Content Include="Lodop\LodopFuncs.js" />
@@ -943,6 +948,7 @@
     <Content Include="Views\Base_Department\Edit.cshtml" />
     <Content Include="Views\Base_Usr\Index.cshtml" />
     <Content Include="Views\Base_Usr\Edit.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

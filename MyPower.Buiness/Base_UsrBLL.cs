@@ -115,5 +115,16 @@ namespace MyPower.Buiness
 
             return result;
         }
+
+
+        public static Base_Usr GetByAccountPwd(string account,string pwd)
+        {
+            Base_Usr model = null;
+            using (MyPowerConStr db = new MyPowerConStr())
+            {
+                model = db.Base_Usr.FirstOrDefault(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
+            }
+            return model;
+        }
     }
 }

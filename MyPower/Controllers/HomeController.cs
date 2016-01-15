@@ -1,4 +1,6 @@
-﻿using MyPower.DB;
+﻿using MyPower.Buiness;
+using MyPower.DB;
+using MyPower.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +12,33 @@ namespace MyPower.Controllers
 {
     public class HomeController : MyController
     {
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+
+        public ActionResult AccountLogin(UsrLoginModel model)
+        {
+            ActionResult result = null;
+            if (model != null)
+            {
+                Base_Usr u = Base_UsrBLL.GetByAccountPwd(model.Account, model.pwd);
+                if (u != null)
+                {
+                    Response.Redirect("/Home/Index");
+                }
+                else
+                {
+                    Response.Redirect("/Home/Login");
+                }
+            }
+            else
+            {
+                Response.Redirect("/Home/Login");
+            }
+            return result;
+        }
         public ActionResult Index()
         {
             using (MyPowerConStr db = new MyPowerConStr())

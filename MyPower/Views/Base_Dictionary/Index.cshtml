@@ -8,7 +8,7 @@
         loadGrid();
 
         $("#a_AddDic").bind("click", function () {
-            window.parent.addPanel('新增字典', 'Base_Dictionary/MainDictionary')
+            window.parent.addPanel('新增字典', '/Base_Dictionary/MainDictionary')
         });
 
         $("#a_DeleteDic").bind("click", function () {
@@ -50,12 +50,12 @@
                 { field: 'Name', title: 'Name', align: 'center', width: 200 }
             ]],
             onDblClickRow: function (index, row) {
-                window.parent.addPanel(row.Name + "--字典编辑", 'Base_Dictionary/MainDictionary/' + row.Code);
+                window.parent.addPanel(row.Name + "--字典编辑", '/Base_Dictionary/MainDictionary/' + row.Code);
             },
             onClickRow: function (index, row) {
                 $("#a_AddProperty").unbind("click");
                 $("#a_AddProperty").bind("click", function () {
-                    window.parent.addPanel(row.Name + "--属性添加", 'Base_Dictionary_Value/Index/' + row.Code)
+                    window.parent.addPanel(row.Name + "--属性添加", '/Base_Dictionary_Value/Index/' + row.Code)
                 });
                 loadpropertygrid(row.Code);
             }
@@ -73,7 +73,7 @@
                         { field: 'value', title: 'Value', width: 100, resizable: false }
             ]],
             onDblClickRow: function (index, row) {
-                window.parent.addPanel(row.group + "--属性修改", 'Base_Dictionary_Value/Edit/' + row.group + '/' + code)
+                window.parent.addPanel(row.group + "--属性修改", '/Base_Dictionary_Value/Edit/' + row.group + '/' + code)
             },
         });
     }
