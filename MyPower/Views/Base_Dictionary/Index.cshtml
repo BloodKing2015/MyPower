@@ -1,0 +1,108 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainManage.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(function () {
+        loadGrid();
+
+        $("#a_AddDic").bind("click", function () {
+            window.parent.addPanel('新增字典', 'Base_Dictionary/MainDictionary')
+        });
+
+        $("#a_DeleteDic").bind("click", function () {
+            var opts = $('#tgrid').datagrid('getChecked');
+            for (i = 0; i < opts.length; i++) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Base_Dictionary/Delete",
+                    data: opts[i],
+                    success: function (msg) {
+                        if (msg > 0) {
+                            window.parent.removePanelByTitle("字典配置");
+                            CancelTab();
+                        }
+                        else {
+                            $.messager.alert('删除失败', '删除失败!');
+                        }
+                    }
+                });
+            }
+        });
+    })
+
+
+    //加载表格datagrid
+    function loadGrid() {
+        //加载数据
+        $('#tgrid').datagrid({
+            striped: true,
+            singleSelect: true,
+            url: '/Base_Dictionary/DicList',
+            //queryParams:{},
+            loadMsg: '数据加载中请稍后……',
+            pagination: true,
+            rownumbers: true,
+            columns: [[
+                { field: 'ck', checkbox: true, align: 'center', width: 10 },
+                { field: 'Code', title: 'Code', align: 'center', width: 100 },
+                { field: 'Name', title: 'Name', align: 'center', width: 200 }
+            ]],
+            onDblClickRow: function (index, row) {
+                window.parent.addPanel(row.Name + "--字典编辑", 'Base_Dictionary/MainDictionary/' + row.Code);
+            },
+            onClickRow: function (index, row) {
+                $("#a_AddProperty").unbind("click");
+                $("#a_AddProperty").bind("click", function () {
+                    window.parent.addPanel(row.Name + "--属性添加", 'Base_Dictionary_Value/Index/' + row.Code)
+                });
+                loadpropertygrid(row.Code);
+            }
+        });
+    }
+
+
+    function loadpropertygrid(code) {
+        $('#tProperty').propertygrid({
+            url: '/Base_Dictionary_Value/DicValue/' + code,
+            showGroup: true,
+            scrollbarSize: 0,
+            columns: [[
+                        { field: 'name', title: 'Name', width: 100, resizable: true },
+                        { field: 'value', title: 'Value', width: 100, resizable: false }
+            ]],
+            onDblClickRow: function (index, row) {
+                window.parent.addPanel(row.group + "--属性修改", 'Base_Dictionary_Value/Edit/' + row.group + '/' + code)
+            },
+        });
+    }
+
+</script>
+
+
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'east',split:true,title:'属性',collapsible:false" style="width:500px;">
+        <table id="tProperty" class="easyui-propertygrid" data-options="
+                        fit: true,
+                        border: false"
+               toolbar="#tbProperty"></table>
+    </div>
+    <div data-options="region:'center',title:'字典',iconCls:'icon-ok'">
+        <table id="tgrid" class="easyui-datagrid"
+               data-options="
+               fit:true,
+               border:false"
+               toolbar="#tb"></table>
+    </div>
+</div>
+
+<div id="tb">
+    <a id="a_AddDic" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true">新增</a>
+    <a id="a_DeleteDic" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" plain="true">删除</a>
+</div>
+
+<div id="tbProperty">
+    <a id="a_AddProperty" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true">新增</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" plain="true" onclick="javascript:alert('Cut')">删除</a>
+</div>

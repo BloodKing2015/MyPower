@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "角色编辑";
+    Layout = "~/Views/Shared/_ContentManage.cshtml";
+}
+@model MyPower.DB.Base_Usr
+@Html.HiddenFor(f => f.ID)
+<table cellpadding="5">
+    <tr>
+        <td>工号:</td>
+        <td>
+            @Html.TextBoxFor(m => m.JobCode, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>登录名:</td>
+        <td>
+            @Html.TextBoxFor(m => m.Account, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>用户名:</td>
+        <td>
+            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>密码:</td>
+        <td>
+            @Html.PasswordFor(p => p.Pwd, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>性别:</td>
+        <td>
+            @Html.TextBoxFor(f => f.Sex, new Dictionary<string, object>() { { "class", "easyui-combotree" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>备注:</td>
+        <td>
+            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
+        </td>
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+    function Save() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Usr/Save",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("用户管理");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('保存失败', '保存失败!');
+                }
+            }
+        });
+    }
+
+    function Delete() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Usr/Delete",
+            data: { "id": $("#ID").val() },
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("用户管理");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('删除失败', '删除失败!');
+                }
+            }
+        });
+    }
+
+
+    $(function () {
+        $('#Sex').combobox(
+           {
+               required: true,
+               url: '/Base_Dictionary/GetDicValue/2016001',
+               valueField: 'code',
+               textField: 'Name'
+           });
+    })
+</script>

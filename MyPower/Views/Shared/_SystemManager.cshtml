@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Page-Enter" content="revealTrans(Duration=0.5,Transition=3)" />
+    <meta name="Author" content="戴冬成，daidch2011@126.com">
+    <meta name="Copyright" content="本页版权归 daidch2011@126.com 所有。All Rights Reserved">
+    <title>@ViewBag.Title-系统管理平台</title>
+    @Styles.Render("~/jquery-easyui-1.4.4/css")
+    @Scripts.Render("~/jquery-easyui-1.4.4/js")
+    <script type="text/javascript">
+        var index = 0;
+        function addPanel(title, url) {
+            if ($('#main-tab').tabs('exists', title)) {
+                $('#main-tab').tabs('select', title);
+            } else {
+                /**添加一个tab标签**/
+                index++;
+                $('#main-tab').tabs('add', {
+                    title: title,
+                    content: '<iframe title="' + title + '" scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:96%;"></iframe>',
+                    closable: true
+                });
+            }
+        }
+        function removePanel() {
+            var tab = $('#main-tab').tabs('getSelected');
+            if (tab && tab.panel('options').tab[0].innerText != '首页') {
+                var index = $('#main-tab').tabs('getTabIndex', tab);
+                $('#main-tab').tabs('close', index);
+            }
+        }
+
+        function removePanelByTitle(title) {
+            $('iframe[title="' + title + '"]').attr('src', $('iframe[title="' + title + '"]').attr('src'));
+        }
+
+        ///添加菜单
+        var idx = 1;
+        function addMenu(title, objChildren) {
+            objContent = "";
+            for (k = 0; k < objChildren.length; k++) {
+                objContent += "<a href='javascript:void(0)' class='easyui-linkbutton' data-options=\"plain:true,iconCls:'icon-save'\" style='width:100%' onclick='addPanel(\""
+                    + objChildren[k].Name + "\", \""
+                    + objChildren[k].url + "\")'> "
+                    + objChildren[k].Name + "</a>";
+                if (k != objChildren.length - 1) {
+                    objContent += "<br/>"
+                }
+            }
+            $("#main-menu").accordion("add", {
+                title: title,
+                content: objContent
+            });
+            idx++;
+        }
+
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/Menu",
+                success: function (resultData) {
+                    data = eval(resultData);
+                    for (i = 0; i < data.length; i++) {
+                        addMenu(data[i].Name, data[i].children);
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px; font-size:x-large">
+        系统管理平台
+    </div>
+    <div data-options="region:'west',split:true,title:'导航'" style="width:200px; padding:0px;">
+        <div id="main-menu" class="easyui-accordion" data-options="fit:true,border:false">
+        </div>
+    </div>
+    <div data-options="region:'center',title:'内容'">
+        <div id="main-tab" class="easyui-tabs" data-options="tools:'#tab-tools',fit:true,border:false">
+            <div title="首页" style="padding-top:1px;">
+                @RenderBody()
+            </div>
+        </div>
+        <div id="tab-tools">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" onclick="removePanel()"></a>
+        </div>
+    </div>
+    <div data-options="region:'south',border:false" style="height: 35px; background: #B3DFDA; padding: 10px;">
+        系统名称：MYPower V1.0        &copy; @DateTime.Now.Year - daidch2011@126.com
+    </div>
+</body>
+</html>

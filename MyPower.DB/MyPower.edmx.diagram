@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b1cbd881ba4a41be8b4cb1a0b9fc8810" Name="Diagram1">
+        <EntityTypeShape EntityType="MyPowerModel.Base_Buttons" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Department" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_log" Width="1.5" PointX="7.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Login_log" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Recyclebin" Width="1.5" PointX="9.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Recyclebin_dataSource" Width="1.5" PointX="12" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Role" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_UserGroup" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Usr" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyPowerModel.Menus" Width="1.5" PointX="8.25" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="MyPowerModel.FK_BASE_LOG_REFERENCE_BASE_USR" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.FK_BASE_REC_REFERENCE_BASE_REC" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.Base_Menus_Buttons" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.Base_Role_Buttons" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.Base_Role_Menus" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.Base_Usr_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.Base_Usr_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="MyPowerModel.Base_Usr_UsrGroup" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Dictionary" Width="1.5" PointX="10.375" PointY="0.875" />
+        <EntityTypeShape EntityType="MyPowerModel.Base_Dictionary_Value" Width="1.5" PointX="12.625" PointY="1" />
+        <AssociationConnector Association="MyPowerModel.FK_BASE_DIC_REFERENCE_BASE_DIC" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "字典属性";
+    Layout = "~/Views/Shared/_ContentManage.cshtml";
+}
+@model MyPower.DB.Base_Dictionary_Value
+
+@Html.HiddenFor(f => f.Base_Dictionary_Code)
+<table cellpadding="5">
+    <tr>
+        <td>Code:</td>
+        <td>
+            @Html.TextBoxFor(m => m.Code, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td>
+            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </td>
+    </tr>
+    <tr>
+        <td>备注:</td>
+        <td>
+            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
+        </td>
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+    function Save() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Dictionary_Value/Save",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("字典配置");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('保存失败', '保存失败!');
+                }
+            }
+        });
+    }
+
+    function Delete() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Dictionary_Value/Delete",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("字典配置");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('删除失败', '删除失败!');
+                }
+            }
+        });
+    }
+</script>
