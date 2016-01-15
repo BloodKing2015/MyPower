@@ -1,6 +1,7 @@
 ﻿using MyPower.DB;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -44,7 +45,7 @@ namespace MyPower.Controllers
                 menuList = db.Menus.ToList();
             }
             var menuObj =
-                from item in menuList.Where(w => (w.ParentId ?? 0) == 0).OrderBy(o=>o.Code)
+                from item in menuList.Where(w => (w.ParentId ?? 0) == 0).OrderBy(o => o.Code)
                 select new
                 {
                     Name = item.Name,
@@ -55,6 +56,23 @@ namespace MyPower.Controllers
                 };
 
             return Json(menuObj);
+        }
+
+        /// <summary>
+        /// app 接口 DEMO
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult bt()
+        {
+            Stream stream = Request.InputStream;
+
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+
+            // 设置当前流的位置为流的开始 
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return Json(System.Text.Encoding.UTF8.GetString(bytes));
         }
     }
 }
