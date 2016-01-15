@@ -72,10 +72,22 @@
                     }
                 }
             });
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/GetCurrentUsr",
+                success: function (resultData) {
+                    data = eval(resultData);
+                    $("#content").layout('panel', 'center').panel({
+                        title: "工号：[" + data.jobCode + "]----用户：" + data.Name
+                    });
+                }
+            });
+
         })
     </script>
 </head>
-<body class="easyui-layout">
+<body id="content" class="easyui-layout">
     <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px; font-size:x-large">
         系统管理平台
     </div>

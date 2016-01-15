@@ -26,6 +26,7 @@ namespace MyPower.Controllers
                 Base_Usr u = Base_UsrBLL.GetByAccountPwd(model.Account, model.pwd);
                 if (u != null)
                 {
+                    Session["usr"] = u;
                     Response.Redirect("/Home/Index");
                 }
                 else
@@ -38,6 +39,22 @@ namespace MyPower.Controllers
                 Response.Redirect("/Home/Login");
             }
             return result;
+        }
+
+        public JsonResult GetCurrentUsr()
+        {
+            Base_Usr u = Session["usr"] as Base_Usr;
+
+            if (u != null)
+            {
+                var model = new { Account = u.Account, Name = u.Name, jobCode = u.JobCode };
+                return Json(model);
+            }
+            else
+            {
+                var model = new { Account = "", Name = "无用户", jobCode = "" };
+                return Json(model);
+            }
         }
         public ActionResult Index()
         {
