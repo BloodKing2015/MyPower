@@ -1,5 +1,6 @@
 ﻿using MyPower.Buiness;
 using MyPower.DB;
+using MyPower.Model;
 using MyPower.Models;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ namespace MyPower.Controllers
             ActionResult result = null;
             if (model != null)
             {
-                Base_Usr u = Base_UsrBLL.GetByAccountPwd(model.Account, model.pwd);
-                if (u != null)
+                SessionUser SUser = Base_UsrBLL.GetByAccountPwd(model.Account, model.pwd);
+                if (SUser != null)
                 {
-                    Session["usr"] = u;
+                    SetSessionUser(SUser);
                     Response.Redirect("/Home/Index");
                 }
                 else
@@ -43,18 +44,8 @@ namespace MyPower.Controllers
 
         public JsonResult GetCurrentUsr()
         {
-            Base_Usr u = Session["usr"] as Base_Usr;
-
-            if (u != null)
-            {
-                var model = new { Account = u.Account, Name = u.Name, jobCode = u.JobCode };
-                return Json(model);
-            }
-            else
-            {
-                var model = new { Account = "", Name = "无用户", jobCode = "" };
-                return Json(model);
-            }
+            var model = new { Account = CurrentSession.C_User.Account, Name = CurrentSession.C_User.Name, jobCode = CurrentSession.C_User.JobCode };
+            return Json(model);
         }
         public ActionResult Index()
         {

@@ -1,4 +1,5 @@
 ﻿using MyPower.DB;
+using MyPower.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,15 +117,94 @@ namespace MyPower.Buiness
             return result;
         }
 
-
-        public static Base_Usr GetByAccountPwd(string account,string pwd)
+        #region userLogin
+        public static SessionUser GetByAccountPwd(string account, string pwd)
         {
-            Base_Usr model = null;
+            SessionUser model = null;
             using (MyPowerConStr db = new MyPowerConStr())
             {
-                model = db.Base_Usr.FirstOrDefault(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
+                Base_Usr bUser = db.Base_Usr.FirstOrDefault(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
+                if (bUser != null)
+                {
+                    model = new SessionUser();
+                    model.C_User = ConvertUserToCurrentUser(bUser);
+                    model.C_Dept =
+                        (from item in bUser.Base_Department
+                         select new CurrentDepartment()
+                         {
+                             ID = item.ID,
+                             Code = item.Code,
+                             ParentId = item.ParentId
+                         }).ToList();
+                    model.C_Role =
+                        (
+                        from item in bUser.Base_Role
+                        select new CurrentRole()
+                        {
+                            ID = item.ID,
+                            Code = item.Code,
+                            Name = item.Name
+                        }
+                        ).ToList();
+                    model.C_UGroup =
+                        (
+                        from item in bUser.Base_UserGroup
+                        select new CurrentUserGroup()
+                        {
+                            ID = item.ID,
+                            Code = item.Code,
+                            Name = item.Name
+                        }
+                        ).ToList();
+                    model.C_Menus =
+                        (
+                        from item in bUser.Base_Role
+                        from r in item.Menus
+                        select new CurrentMenus()
+                        {
+                            ID = r.ID,
+                            Code = r.Code,
+                            Name = r.Name,
+                            URL = r.URL,
+                            logo = r.logo,
+                            ParentId = r.ParentId,
+                            Btns =
+                            (
+                            from b in r.Base_Buttons
+                            select new CurrentButtons()
+                            {
+                                ID = b.ID,
+                                Code = b.Code,
+                                Name = b.Name,
+                                Action = b.Action
+                            }
+                            ).ToList()
+                        }
+                        ).ToList();
+                }
             }
             return model;
         }
+
+        private static CurrentUser ConvertUserToCurrentUser(Base_Usr usr)
+        {
+            CurrentUser result = new CurrentUser();
+            result.ID = usr.ID;
+            result.Creater = usr.Creater;
+            result.Createtime = usr.Createtime;
+            result.Remark = usr.Remark;
+            result.Account = usr.Account;
+            result.Pwd = usr.Pwd;
+            result.Name = usr.Name;
+            result.Sex = usr.Sex;
+            result.IdCard = usr.IdCard;
+            result.Mobile = usr.Mobile;
+            result.Email = usr.Email;
+            result.JobCode = usr.JobCode;
+            result.HomeAddress = usr.HomeAddress;
+            return result;
+        }
+        #endregion
+
     }
 }
