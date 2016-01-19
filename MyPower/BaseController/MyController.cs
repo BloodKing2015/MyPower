@@ -8,6 +8,7 @@
  * Copy Right WGX ALL Right
  ***********************************************************************/
 
+using MyPower.Buiness;
 using MyPower.Model;
 using System;
 using System.Collections.Generic;
@@ -92,9 +93,18 @@ namespace MyPower
 
         }
 
+        /// <summary>
+        /// 错误日志
+        /// </summary>
+        /// <param name="filterContext"></param>
         protected override void OnException(ExceptionContext filterContext)
         {
-
+            int userId = 0;
+            if (CurrentSession!=null)
+            {
+                userId = CurrentSession.C_User.ID;
+            }
+            Base_logBLL.WriteException(filterContext.Exception, userId);
         }
 
         #region function

@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,7 @@
     <Compile Include="Base_DepartmentBLL.cs" />
     <Compile Include="Base_DictionaryBLL.cs" />
     <Compile Include="Base_Dictionary_ValueBLL.cs" />
+    <Compile Include="Base_logBLL.cs" />
     <Compile Include="Base_RoleBLL.cs" />
     <Compile Include="Base_UsrBLL.cs" />
     <Compile Include="MenuBLL.cs" />
