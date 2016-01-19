@@ -32,7 +32,7 @@ namespace MyPower
         #region Authorization filters – 需要实现IAuthorizationFilter接口，用于验证处理验证相关的操作
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            ///TODO
+            ///TODO            
         }
         protected override void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)
         {

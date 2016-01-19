@@ -30,14 +30,6 @@ namespace MyPower.Controllers
                     SetSessionUser(SUser);
                     Response.Redirect("/Home/Index");
                 }
-                else
-                {
-                    Response.Redirect("/Home/Login");
-                }
-            }
-            else
-            {
-                Response.Redirect("/Home/Login");
             }
             return result;
         }
