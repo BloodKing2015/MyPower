@@ -4,46 +4,113 @@
 }
 @model MyPower.DB.Base_Usr
 @Html.HiddenFor(f => f.ID)
-<table cellpadding="5">
-    <tr>
-        <td>工号:</td>
-        <td>
+
+<style type="text/css">
+    div .Panel-Table-Main {
+        padding: 10px;
+    }
+
+        div .Panel-Table-Main > div:first-child {
+            border-top: 1px solid #C0DEE8;
+        }
+
+        div .Panel-Table-Main > div {
+            background-color: #ECF5F8;
+            float: left;
+            width: 100%;
+            border-bottom: 1px solid #C0DEE8;
+            border-left: 1px solid #C0DEE8;
+            border-right: 1px solid #C0DEE8;
+        }
+
+            div .Panel-Table-Main > div > div:first-child {
+                float: left;
+                padding: 5px;
+                padding-right: 20px;
+                width: 15%;
+                text-align: right;
+                vertical-align: middle;
+            }
+
+            div .Panel-Table-Main > div > div:nth-child(2) {
+                float: left;
+                padding: 5px;
+                padding-left: 20px;
+                width: 30%;
+                text-align: left;
+                border-left: 1px solid #C0DEE8;
+                border-right: 1px solid #C0DEE8;
+            }
+
+            div .Panel-Table-Main > div > div:nth-child(3) {
+                float: left;
+                padding: 5px;
+                padding-right: 20px;
+                width: 15%;
+                text-align: right;
+                vertical-align: middle;
+            }
+
+            div .Panel-Table-Main > div > div:last-child {
+                padding: 5px;
+                padding-left: 20px;
+                float: left;
+                width: 30%;
+                text-align: left;
+                border-left: 1px solid #C0DEE8;
+            }
+</style>
+
+<div class="Panel-Table-Main ">
+    <div>
+        <div>
+            工号:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.JobCode, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>登录名:</td>
-        <td>
+        </div>
+        <div>
+            登录名:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Account, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>用户名:</td>
-        <td>
+        </div>
+    </div>
+    <div>
+        <div>
+            用户名:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>密码:</td>
-        <td>
+        </div>
+        <div>
+            密码:
+        </div>
+        <div>
             @Html.PasswordFor(p => p.Pwd, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>性别:</td>
-        <td>
+        </div>
+    </div>
+    <div>
+        <div>
+            性别:
+        </div>
+        <div>
             @Html.TextBoxFor(f => f.Sex, new Dictionary<string, object>() { { "class", "easyui-combotree" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>备注:</td>
-        <td>
-            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
-        </td>
-    </tr>
-</table>
-
-
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div>
+        <div>
+            备注:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:300px" } })
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     function Save() {
