@@ -67,11 +67,23 @@
             return param;
         }
     </script>
+    <style type="text/css">
+        div .ButtonMenu {
+            margin-top:5px;
+            margin-left:5px;
+            margin-right:5px;
+            height: 34px;
+            padding-top: 2px;
+            background-color: #ECF5F8;
+            text-align:right;
+            padding-right:20px;
+        }
+    </style>
 </head>
 <body>
     <div class="easyui-panel" data-options="fit:true,border:false">
         <div class="easyui-layout" data-options="fit:true,border:false">
-            <div data-options="region:'north'" style="height: 34px; padding-top: 2px; background-color: #D6E9F0; ">
+            <div data-options="region:'north'" class="ButtonMenu">
                 <a id="a_save" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Save</a>
                 <a id="a_clear" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">Clear</a>
                 <a id="a_remove" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
