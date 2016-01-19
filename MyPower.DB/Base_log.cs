@@ -19,5 +19,6 @@ namespace MyPower.DB
         public string ClientIP { get; set; }
         public Nullable<int> UsrId { get; set; }
         public int ID { get; set; }
+        public System.DateTime CreateTime { get; set; }
     }
 }

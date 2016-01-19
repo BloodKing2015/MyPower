@@ -60,6 +60,7 @@
           <Property Name="ClientIP" Type="varchar" MaxLength="50" />
           <Property Name="UsrId" Type="int" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Base_Login_log">
           <Key>
@@ -496,6 +497,7 @@
           <Property Name="ClientIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UsrId" Type="Int32" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Base_Login_log">
           <Key>
@@ -764,6 +766,7 @@
           <EntitySetMapping Name="Base_log">
             <EntityTypeMapping TypeName="MyPowerModel.Base_log">
               <MappingFragment StoreEntitySet="Base_log">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="errorMsg" ColumnName="errorMsg" />
                 <ScalarProperty Name="ClientIP" ColumnName="ClientIP" />
