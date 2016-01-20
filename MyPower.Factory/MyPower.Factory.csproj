@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2DD04BC6-7A38-40A1-87C7-4CA9F7580164}</ProjectGuid>
+    <ProjectGuid>{E082CAB0-4F60-43EA-B090-0F37114F39BB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyPower.Buiness</RootNamespace>
-    <AssemblyName>MyPower.Buiness</AssemblyName>
+    <RootNamespace>MyPower.Factory</RootNamespace>
+    <AssemblyName>MyPower.Factory</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
@@ -50,27 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base_DepartmentBLL.cs" />
-    <Compile Include="Base_DictionaryBLL.cs" />
-    <Compile Include="Base_Dictionary_ValueBLL.cs" />
-    <Compile Include="Base_logBLL.cs" />
-    <Compile Include="Base_RoleBLL.cs" />
-    <Compile Include="Base_UsrBLL.cs" />
-    <Compile Include="MenuBLL.cs" />
+    <Compile Include="DBFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyPower.DB\MyPower.DB.csproj">
       <Project>{b3a2dcb1-fa14-4000-9873-b620239418d4}</Project>
       <Name>MyPower.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyPower.Factory\MyPower.Factory.csproj">
-      <Project>{e082cab0-4f60-43ea-b090-0f37114f39bb}</Project>
-      <Name>MyPower.Factory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyPower.Model\MyPower.Model.csproj">
-      <Project>{83e7def4-3647-4b9f-8521-146e41340c81}</Project>
-      <Name>MyPower.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

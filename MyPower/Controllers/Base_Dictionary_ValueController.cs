@@ -1,5 +1,6 @@
 ﻿using MyPower.Buiness;
 using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace MyPower.Controllers
             DicValueModel model = new DicValueModel();
             model.rows = new List<DicValue>();
             List<Base_Dictionary_Value> dvList = new List<Base_Dictionary_Value>();
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 dvList = (from item in db.Base_Dictionary_Value
                           where string.Equals(item.Base_Dictionary_Code, dicCode)
@@ -48,7 +49,7 @@ namespace MyPower.Controllers
         public ActionResult Edit(string dicValueCode, string dicCode)
         {
             Base_Dictionary_Value dv = new Base_Dictionary_Value();
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 dv = db.Base_Dictionary_Value.FirstOrDefault(f => string.Equals(f.Code, dicValueCode) && string.Equals(f.Base_Dictionary_Code, dicCode));
             }

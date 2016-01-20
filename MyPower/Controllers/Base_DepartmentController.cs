@@ -1,5 +1,6 @@
 ﻿using MyPower.Buiness;
 using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Model;
 using MyPower.Models;
 using System;
@@ -36,7 +37,7 @@ namespace MyPower.Controllers
         public ActionResult Edit(int? id)
         {
             Base_Department mEntity = null;
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 mEntity = db.Base_Department.FirstOrDefault(
                     f =>

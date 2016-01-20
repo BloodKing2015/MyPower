@@ -1,5 +1,6 @@
 ﻿using MyPower.Buiness;
 using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Models;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace MyPower.Controllers
             RoleModel model = new RoleModel();
             int pageSize = Convert.ToInt32(Request["rows"]);
             int pageNum = Convert.ToInt32(Request["page"]);
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 model.total = db.Base_Role.Count();
                 model.rows = (from item in db.Base_Role
@@ -62,7 +63,7 @@ namespace MyPower.Controllers
         public ActionResult Edit(int? id)
         {
             Base_Role mEntity = null;
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 mEntity = db.Base_Role.FirstOrDefault(
                     f =>

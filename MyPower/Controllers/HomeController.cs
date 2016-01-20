@@ -1,5 +1,6 @@
 ﻿using MyPower.Buiness;
 using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Model;
 using MyPower.Models;
 using System;
@@ -48,7 +49,7 @@ namespace MyPower.Controllers
         public JsonResult Menu()
         {
             List<Menus> menuList = new List<Menus>();
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 menuList = db.Menus.ToList();
             }

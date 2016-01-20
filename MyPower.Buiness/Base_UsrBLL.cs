@@ -1,4 +1,5 @@
 ﻿using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Model;
 using System;
 using System.Collections.Generic;
@@ -13,26 +14,24 @@ namespace MyPower.Buiness
         public static List<Base_Usr> GetUsrList()
         {
             List<Base_Usr> entityList = new List<Base_Usr>();
-            using (MyPowerConStr db = new MyPowerConStr())
-            {
-                entityList = (from item in db.Base_Usr.ToList()
-                              select new Base_Usr()
-                              {
-                                  ID = item.ID,
-                                  Creater = item.Creater,
-                                  Createtime = item.Createtime,
-                                  Remark = item.Remark,
-                                  Account = item.Account,
-                                  Pwd = item.Pwd,
-                                  Name = item.Name,
-                                  Sex = item.Sex,
-                                  IdCard = item.IdCard,
-                                  Mobile = item.Mobile,
-                                  Email = item.Email,
-                                  JobCode = item.JobCode,
-                                  HomeAddress = item.HomeAddress
-                              }).ToList();
-            }
+            MyPowerConStr db = DBFactory.Instance();
+            entityList = (from item in db.Base_Usr.ToList()
+                          select new Base_Usr()
+                          {
+                              ID = item.ID,
+                              Creater = item.Creater,
+                              Createtime = item.Createtime,
+                              Remark = item.Remark,
+                              Account = item.Account,
+                              Pwd = item.Pwd,
+                              Name = item.Name,
+                              Sex = item.Sex,
+                              IdCard = item.IdCard,
+                              Mobile = item.Mobile,
+                              Email = item.Email,
+                              JobCode = item.JobCode,
+                              HomeAddress = item.HomeAddress
+                          }).ToList();
             return entityList;
         }
 
@@ -41,35 +40,71 @@ namespace MyPower.Buiness
         {
             totals = 0;
             List<Base_Usr> result = new List<Base_Usr>();
-            using (MyPowerConStr db = new MyPowerConStr())
-            {
-                Base_Department dept = db.Base_Department.FirstOrDefault(f => f.ID == deptId);
-                if (dept != null)
+            List<Base_Department> deptList = GetDepartAndSelf(deptId);
+            MyPowerConStr db = DBFactory.Instance();
+            List<Base_Usr> buList = new List<Base_Usr>();
+            deptList.ForEach(
+                f =>
                 {
-                    totals = dept.Base_Usr.Count();
-                    result = (from item in dept.Base_Usr
-                              select new Base_Usr()
-                              {
-                                  ID = item.ID,
-                                  Creater = item.Creater,
-                                  Createtime = item.Createtime,
-                                  Remark = item.Remark,
-                                  Account = item.Account,
-                                  Pwd = item.Pwd,
-                                  Name = item.Name,
-                                  Sex = item.Sex,
-                                  IdCard = item.IdCard,
-                                  Mobile = item.Mobile,
-                                  Email = item.Email,
-                                  JobCode = item.JobCode,
-                                  HomeAddress = item.HomeAddress
-                              })
-                           .OrderBy(o => o.JobCode)
-                           .Skip((pageNum - 1) * pageSize)
-                           .Take(pageSize)
-                           .ToList();
-
+                    buList.AddRange(f.Base_Usr);
                 }
+                );
+            totals = buList.Count();
+            result = (from item in buList
+                      select new Base_Usr()
+                      {
+                          ID = item.ID,
+                          Creater = item.Creater,
+                          Createtime = item.Createtime,
+                          Remark = item.Remark,
+                          Account = item.Account,
+                          Pwd = item.Pwd,
+                          Name = item.Name,
+                          Sex = item.Sex,
+                          IdCard = item.IdCard,
+                          Mobile = item.Mobile,
+                          Email = item.Email,
+                          JobCode = item.JobCode,
+                          HomeAddress = item.HomeAddress
+                      })
+                   .OrderBy(o => o.JobCode)
+                   .Skip((pageNum - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToList();
+            return result;
+        }
+
+        /// <summary>
+        /// 获取部门及其子部门
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
+        public static List<Base_Department> GetDepartAndSelf(int deptId)
+        {
+            List<Base_Department> result = new List<Base_Department>();
+            MyPowerConStr db = DBFactory.Instance();
+            Base_Department dept = db.Base_Department.FirstOrDefault(f => f.ID == deptId);
+            if (dept != null)
+            {
+                result.Add(dept);
+            }
+
+            result.AddRange(GetDepart(deptId));
+            return result;
+        }
+        /// <summary>
+        /// 获取子部门
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
+        private static List<Base_Department> GetDepart(int deptId)
+        {
+            List<Base_Department> result = new List<Base_Department>();
+            MyPowerConStr db = DBFactory.Instance();
+            foreach (Base_Department d in db.Base_Department.Where(w => (w.ParentId ?? 0) == deptId))
+            {
+                result.Add(d);
+                result.AddRange(GetDepart(d.ID));
             }
             return result;
         }
@@ -82,19 +117,17 @@ namespace MyPower.Buiness
             {
                 model.Createtime = DateTime.Now;
                 model.Creater = 1;
-                using (MyPowerConStr db = new MyPowerConStr())
+                MyPowerConStr db = DBFactory.Instance();
+                db.Base_Usr.Add(model);
+                if (model.ID > 0)
                 {
-                    db.Base_Usr.Add(model);
-                    if (model.ID > 0)
-                    {
-                        db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Added;
-                    }
-                    result = db.SaveChanges();
+                    db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Modified;
                 }
+                else
+                {
+                    db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Added;
+                }
+                result = db.SaveChanges();
             }
             return result;
         }
@@ -103,15 +136,13 @@ namespace MyPower.Buiness
         public static int Delete(int id)
         {
             int result = 0;
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
+            Base_Usr model = db.Base_Usr.FirstOrDefault(f => f.ID == id);
+            if (model != null)
             {
-                Base_Usr model = db.Base_Usr.FirstOrDefault(f => f.ID == id);
-                if (model != null)
-                {
-                    db.Base_Usr.Add(model);
-                    db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Deleted;
-                    result = db.SaveChanges();
-                }
+                db.Base_Usr.Add(model);
+                db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Deleted;
+                result = db.SaveChanges();
             }
 
             return result;
@@ -121,67 +152,65 @@ namespace MyPower.Buiness
         public static SessionUser GetByAccountPwd(string account, string pwd)
         {
             SessionUser model = null;
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
+            Base_Usr bUser = db.Base_Usr.FirstOrDefault(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
+            if (bUser != null)
             {
-                Base_Usr bUser = db.Base_Usr.FirstOrDefault(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
-                if (bUser != null)
-                {
-                    model = new SessionUser();
-                    model.C_User = ConvertUserToCurrentUser(bUser);
-                    model.C_Dept =
-                        (from item in bUser.Base_Department
-                         select new CurrentDepartment()
-                         {
-                             ID = item.ID,
-                             Code = item.Code,
-                             ParentId = item.ParentId
-                         }).ToList();
-                    model.C_Role =
+                model = new SessionUser();
+                model.C_User = ConvertUserToCurrentUser(bUser);
+                model.C_Dept =
+                    (from item in bUser.Base_Department
+                     select new CurrentDepartment()
+                     {
+                         ID = item.ID,
+                         Code = item.Code,
+                         ParentId = item.ParentId
+                     }).ToList();
+                model.C_Role =
+                    (
+                    from item in bUser.Base_Role
+                    select new CurrentRole()
+                    {
+                        ID = item.ID,
+                        Code = item.Code,
+                        Name = item.Name
+                    }
+                    ).ToList();
+                model.C_UGroup =
+                    (
+                    from item in bUser.Base_UserGroup
+                    select new CurrentUserGroup()
+                    {
+                        ID = item.ID,
+                        Code = item.Code,
+                        Name = item.Name
+                    }
+                    ).ToList();
+                model.C_Menus =
+                    (
+                    from item in bUser.Base_Role
+                    from r in item.Menus
+                    select new CurrentMenus()
+                    {
+                        ID = r.ID,
+                        Code = r.Code,
+                        Name = r.Name,
+                        URL = r.URL,
+                        logo = r.logo,
+                        ParentId = r.ParentId,
+                        Btns =
                         (
-                        from item in bUser.Base_Role
-                        select new CurrentRole()
+                        from b in r.Base_Buttons
+                        select new CurrentButtons()
                         {
-                            ID = item.ID,
-                            Code = item.Code,
-                            Name = item.Name
+                            ID = b.ID,
+                            Code = b.Code,
+                            Name = b.Name,
+                            Action = b.Action
                         }
-                        ).ToList();
-                    model.C_UGroup =
-                        (
-                        from item in bUser.Base_UserGroup
-                        select new CurrentUserGroup()
-                        {
-                            ID = item.ID,
-                            Code = item.Code,
-                            Name = item.Name
-                        }
-                        ).ToList();
-                    model.C_Menus =
-                        (
-                        from item in bUser.Base_Role
-                        from r in item.Menus
-                        select new CurrentMenus()
-                        {
-                            ID = r.ID,
-                            Code = r.Code,
-                            Name = r.Name,
-                            URL = r.URL,
-                            logo = r.logo,
-                            ParentId = r.ParentId,
-                            Btns =
-                            (
-                            from b in r.Base_Buttons
-                            select new CurrentButtons()
-                            {
-                                ID = b.ID,
-                                Code = b.Code,
-                                Name = b.Name,
-                                Action = b.Action
-                            }
-                            ).ToList()
-                        }
-                        ).ToList();
-                }
+                        ).ToList()
+                    }
+                    ).ToList();
             }
             return model;
         }

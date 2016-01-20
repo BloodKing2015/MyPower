@@ -1,5 +1,6 @@
 ﻿using MyPower.Buiness;
 using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Models;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace MyPower.Controllers
         public ActionResult MainDictionary(string code)
         {
             Base_Dictionary mEntity = null;
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 mEntity = db.Base_Dictionary.FirstOrDefault(
                     f =>
@@ -65,7 +66,7 @@ namespace MyPower.Controllers
             int pageSize = Convert.ToInt32(Request["rows"]);
             int pageNum = Convert.ToInt32(Request["page"]);
             DicModel model = new DicModel();
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
             {
                 model.total = db.Base_Dictionary.Count();
                 model.rows = (from item in db.Base_Dictionary.ToList()

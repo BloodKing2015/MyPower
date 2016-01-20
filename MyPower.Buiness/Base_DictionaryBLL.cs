@@ -1,4 +1,5 @@
 ﻿using MyPower.DB;
+using MyPower.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +17,17 @@ namespace MyPower.Buiness
             {
                 model.Createtime = DateTime.Now;
                 model.Creater = 1;
-                using (MyPowerConStr db = new MyPowerConStr())
+                MyPowerConStr db = DBFactory.Instance();
+                db.Base_Dictionary.Add(model);
+                if (db.Base_Dictionary.Count(c => string.Equals(c.Code, model.Code)) > 0)
                 {
-                    db.Base_Dictionary.Add(model);
-                    if (db.Base_Dictionary.Count(c => string.Equals(c.Code, model.Code)) > 0)
-                    {
-                        db.Entry<Base_Dictionary>(model).State = System.Data.Entity.EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry<Base_Dictionary>(model).State = System.Data.Entity.EntityState.Added;
-                    }
-                    result = db.SaveChanges();
+                    db.Entry<Base_Dictionary>(model).State = System.Data.Entity.EntityState.Modified;
                 }
+                else
+                {
+                    db.Entry<Base_Dictionary>(model).State = System.Data.Entity.EntityState.Added;
+                }
+                result = db.SaveChanges();
             }
             return result;
         }
@@ -39,14 +38,12 @@ namespace MyPower.Buiness
             int result = 0;
             if (model != null)
             {
-                using (MyPowerConStr db = new MyPowerConStr())
-                {
-                    db.Base_Dictionary.Add(model);
-                    IEnumerable<Base_Dictionary_Value> dvs = db.Base_Dictionary_Value.Where(w => string.Equals(w.Base_Dictionary_Code, model.Code));
-                    db.Base_Dictionary_Value.RemoveRange(dvs);
-                    db.Entry<Base_Dictionary>(model).State = System.Data.Entity.EntityState.Deleted;
-                    result = db.SaveChanges();
-                }
+                MyPowerConStr db = DBFactory.Instance();
+                db.Base_Dictionary.Add(model);
+                IEnumerable<Base_Dictionary_Value> dvs = db.Base_Dictionary_Value.Where(w => string.Equals(w.Base_Dictionary_Code, model.Code));
+                db.Base_Dictionary_Value.RemoveRange(dvs);
+                db.Entry<Base_Dictionary>(model).State = System.Data.Entity.EntityState.Deleted;
+                result = db.SaveChanges();
             }
 
             return result;
@@ -60,13 +57,11 @@ namespace MyPower.Buiness
         public static List<Base_Dictionary_Value> GetDicValue(string dicCode)
         {
             List<Base_Dictionary_Value> dvs = new List<Base_Dictionary_Value>();
-            using (MyPowerConStr db = new MyPowerConStr())
+            MyPowerConStr db = DBFactory.Instance();
+            Base_Dictionary bd = db.Base_Dictionary.FirstOrDefault(f => string.Equals(f.Code, dicCode));
+            if (bd != null)
             {
-                Base_Dictionary bd = db.Base_Dictionary.FirstOrDefault(f => string.Equals(f.Code, dicCode));
-                if (bd != null)
-                {
-                    dvs = bd.Base_Dictionary_Value.ToList();
-                }
+                dvs = bd.Base_Dictionary_Value.ToList();
             }
             return dvs;
         }

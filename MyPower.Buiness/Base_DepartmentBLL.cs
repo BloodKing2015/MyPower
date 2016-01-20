@@ -1,4 +1,5 @@
 ﻿using MyPower.DB;
+using MyPower.Factory;
 using MyPower.Model;
 using System;
 using System.Collections.Generic;
@@ -14,39 +15,37 @@ namespace MyPower.Buiness
         {
             List<DepartModel> resultList = new List<DepartModel>();
 
-            using (MyPowerConStr db = new MyPowerConStr())
-            {
-                resultList = (from item in db.Base_Department
-                              join j in db.Base_Usr on item.Creater equals j.ID
-                              join m in db.Base_Usr on item.Manager equals m.ID
-                              select new
-                              {
-                                  ID = item.ID,
-                                  Creater = j.Name,
-                                  Createtime = item.Createtime,
-                                  Remark = item.Remark,
-                                  Code = item.Code,
-                                  Name = item.Name,
-                                  ManageName = m.Name,
-                                  IsDepart = item.IsDepart,
-                                  ParentId = item.ParentId
-                              })
-                            .ToList()
-                            .Select(s =>
-                            new DepartModel()
-                            {
-                                ID = s.ID,
-                                Creater = s.Creater,
-                                Createtime = (s.Createtime ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm"),
-                                Remark = s.Remark,
-                                Code = s.Code,
-                                Name = s.Name,
-                                Manager = s.ManageName,
-                                IsDepart = s.IsDepart,
-                                ParentId = s.ParentId
-                            }
-                            ).ToList();
-            }
+            MyPowerConStr db = DBFactory.Instance();
+            resultList = (from item in db.Base_Department
+                          join j in db.Base_Usr on item.Creater equals j.ID
+                          join m in db.Base_Usr on item.Manager equals m.ID
+                          select new
+                          {
+                              ID = item.ID,
+                              Creater = j.Name,
+                              Createtime = item.Createtime,
+                              Remark = item.Remark,
+                              Code = item.Code,
+                              Name = item.Name,
+                              ManageName = m.Name,
+                              IsDepart = item.IsDepart,
+                              ParentId = item.ParentId
+                          })
+                        .ToList()
+                        .Select(s =>
+                        new DepartModel()
+                        {
+                            ID = s.ID,
+                            Creater = s.Creater,
+                            Createtime = (s.Createtime ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm"),
+                            Remark = s.Remark,
+                            Code = s.Code,
+                            Name = s.Name,
+                            Manager = s.ManageName,
+                            IsDepart = s.IsDepart,
+                            ParentId = s.ParentId
+                        }
+                        ).ToList();
 
             List<DepartModel> treeList = new List<DepartModel>();
             treeList.AddRange(InsertDepart(resultList, 0));
@@ -75,19 +74,17 @@ namespace MyPower.Buiness
             {
                 model.Createtime = DateTime.Now;
                 model.Creater = 1;
-                using (MyPowerConStr db = new MyPowerConStr())
+                MyPowerConStr db = DBFactory.Instance();
+                db.Base_Department.Add(model);
+                if (model.ID > 0)
                 {
-                    db.Base_Department.Add(model);
-                    if (model.ID > 0)
-                    {
-                        db.Entry<Base_Department>(model).State = System.Data.Entity.EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Entry<Base_Department>(model).State = System.Data.Entity.EntityState.Added;
-                    }
-                    result = db.SaveChanges();
+                    db.Entry<Base_Department>(model).State = System.Data.Entity.EntityState.Modified;
                 }
+                else
+                {
+                    db.Entry<Base_Department>(model).State = System.Data.Entity.EntityState.Added;
+                }
+                result = db.SaveChanges();
             }
             return result;
         }
@@ -98,12 +95,10 @@ namespace MyPower.Buiness
             int result = 0;
             if (model != null)
             {
-                using (MyPowerConStr db = new MyPowerConStr())
-                {
-                    db.Base_Department.Add(model);
-                    db.Entry<Base_Department>(model).State = System.Data.Entity.EntityState.Deleted;
-                    result = db.SaveChanges();
-                }
+                MyPowerConStr db = DBFactory.Instance();
+                db.Base_Department.Add(model);
+                db.Entry<Base_Department>(model).State = System.Data.Entity.EntityState.Deleted;
+                result = db.SaveChanges();
             }
 
             return result;
@@ -117,25 +112,23 @@ namespace MyPower.Buiness
         {
             List<TreeDepartModel> resultList = new List<TreeDepartModel>();
 
-            using (MyPowerConStr db = new MyPowerConStr())
-            {
-                resultList = (from item in db.Base_Department
-                              select new
-                              {
-                                  ID = item.ID,
-                                  Name = item.Name,
-                                  ParentId = item.ParentId
-                              })
-                            .ToList()
-                            .Select(s =>
-                            new TreeDepartModel()
-                            {
-                                id = s.ID,
-                                text = s.Name,
-                                ParentId = s.ParentId ?? 0
-                            }
-                            ).ToList();
-            }
+            MyPowerConStr db = DBFactory.Instance();
+            resultList = (from item in db.Base_Department
+                          select new
+                          {
+                              ID = item.ID,
+                              Name = item.Name,
+                              ParentId = item.ParentId
+                          })
+                        .ToList()
+                        .Select(s =>
+                        new TreeDepartModel()
+                        {
+                            id = s.ID,
+                            text = s.Name,
+                            ParentId = s.ParentId ?? 0
+                        }
+                        ).ToList();
 
             List<TreeDepartModel> treeList = new List<TreeDepartModel>();
             treeList.AddRange(InsertTreeDepart(resultList, 0));

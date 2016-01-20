@@ -9,6 +9,7 @@
  ***********************************************************************/
 
 using MyPower.DB;
+using MyPower.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,12 @@ namespace MyPower.Buiness
     {
         public static void WriteException(Exception ex, int? userId)
         {
-            using (MyPowerConStr db = new MyPowerConStr())
-            {
-                Base_log log = db.Base_log.Create();
-                log.Code = ex.HResult.ToString();
-                log.errorMsg = ex.Message;
-                log.ClientIP = System.Web.HttpContext.Current.Request.UserHostAddress;
-                log.UsrId = userId;
-            }
+            MyPowerConStr db = DBFactory.Instance();
+            Base_log log = db.Base_log.Create();
+            log.Code = ex.HResult.ToString();
+            log.errorMsg = ex.Message;
+            log.ClientIP = System.Web.HttpContext.Current.Request.UserHostAddress;
+            log.UsrId = userId;
         }
     }
 }
