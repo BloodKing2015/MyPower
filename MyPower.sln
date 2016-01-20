@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPower.Model", "MyPower.Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPower.Factory", "MyPower.Factory\MyPower.Factory.csproj", "{E082CAB0-4F60-43EA-B090-0F37114F39BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPower.HttpModule", "MyPower.HttpModule\MyPower.HttpModule.csproj", "{24C0386F-91AD-484D-97B0-023CD528B2E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E082CAB0-4F60-43EA-B090-0F37114F39BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E082CAB0-4F60-43EA-B090-0F37114F39BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E082CAB0-4F60-43EA-B090-0F37114F39BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24C0386F-91AD-484D-97B0-023CD528B2E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24C0386F-91AD-484D-97B0-023CD528B2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24C0386F-91AD-484D-97B0-023CD528B2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24C0386F-91AD-484D-97B0-023CD528B2E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

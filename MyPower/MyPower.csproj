@@ -976,6 +976,10 @@
       <Project>{e082cab0-4f60-43ea-b090-0f37114f39bb}</Project>
       <Name>MyPower.Factory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyPower.HttpModule\MyPower.HttpModule.csproj">
+      <Project>{24c0386f-91ad-484d-97b0-023cd528b2e5}</Project>
+      <Name>MyPower.HttpModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyPower.Model\MyPower.Model.csproj">
       <Project>{83e7def4-3647-4b9f-8521-146e41340c81}</Project>
       <Name>MyPower.Model</Name>
