@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class MenuController : MyController
+    public class MenuController : BussinessController
     {
         //
         // GET: /Menu/

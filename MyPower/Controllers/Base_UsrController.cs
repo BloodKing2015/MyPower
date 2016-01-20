@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class Base_UsrController : Controller
+    public class Base_UsrController : BussinessController
     {
         //
         // GET: /Base_Usr/

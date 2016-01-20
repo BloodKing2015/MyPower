@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class Base_DictionaryController : MyController
+    public class Base_DictionaryController : BussinessController
     {
         //
         // GET: /Base_Dictionary/

@@ -11,29 +11,8 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class HomeController : MyController
+    public class HomeController : BussinessController
     {
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-
-        public ActionResult AccountLogin(UsrLoginModel model)
-        {
-            ActionResult result = null;
-            if (model != null)
-            {
-                SessionUser SUser = Base_UsrBLL.GetByAccountPwd(model.Account, model.pwd);
-                if (SUser != null)
-                {
-                    SetSessionUser(SUser);
-                    Response.Redirect("/Home/Index");
-                }
-            }
-            return result;
-        }
-
         public JsonResult GetCurrentUsr()
         {
             var model = new { Account = CurrentSession.C_User.Account, Name = CurrentSession.C_User.Name, jobCode = CurrentSession.C_User.JobCode };

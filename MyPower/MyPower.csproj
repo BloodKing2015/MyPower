@@ -171,6 +171,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BaseController\BussinessController.cs" />
     <Compile Include="BaseController\MyController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Base_DepartmentController.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Controllers\Base_RoleController.cs" />
     <Compile Include="Controllers\Base_UsrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -949,7 +951,7 @@
     <Content Include="Views\Base_Department\Edit.cshtml" />
     <Content Include="Views\Base_Usr\Index.cshtml" />
     <Content Include="Views\Base_Usr\Edit.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

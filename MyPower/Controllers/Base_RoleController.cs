@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class Base_RoleController : MyController
+    public class Base_RoleController : BussinessController
     {
         //
         // GET: /Base_Role/

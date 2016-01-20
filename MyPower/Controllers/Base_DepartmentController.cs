@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class Base_DepartmentController : Controller
+    public class Base_DepartmentController : BussinessController
     {
         //
         // GET: /Base_Department/

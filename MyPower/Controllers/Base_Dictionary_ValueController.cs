@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MyPower.Controllers
 {
-    public class Base_Dictionary_ValueController : MyController
+    public class Base_Dictionary_ValueController : BussinessController
     {
         [Route("Base_Dictionary_Value/DicValue/{dicCode}")]
         public JsonResult DicValue(string dicCode)
