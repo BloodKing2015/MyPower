@@ -1,4 +1,5 @@
-﻿using MyPower.DB;
+﻿using MyPower.CommonFuc;
+using MyPower.DB;
 using MyPower.Factory;
 using MyPower.Model;
 using System;
@@ -49,6 +50,10 @@ namespace MyPower.Buiness
                     buList.AddRange(f.Base_Usr);
                 }
                 );
+            buList = buList.Distinct(new selector<Base_Usr>((d1, d2) =>
+            {
+                return d1.ID == d2.ID;
+            })).ToList();
             totals = buList.Count();
             result = (from item in buList
                       select new Base_Usr()

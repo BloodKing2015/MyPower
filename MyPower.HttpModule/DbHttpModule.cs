@@ -1,4 +1,14 @@
-﻿using MyPower.Factory;
+﻿/************************************************************************
+ * Create By:   daidch
+ * Create Time: 2016-01-20
+ * Modify By: 
+ * Modify Time:
+ * Version:     1.0
+ * Description: 
+ * Copy Right WGX ALL Right
+ ***********************************************************************/
+
+using MyPower.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
