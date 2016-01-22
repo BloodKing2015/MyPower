@@ -33,6 +33,7 @@ namespace MyPower.HttpModule
 
         void context_BeginRequest(object sender, EventArgs e)
         {
+            
             //DBFactory df = new DBFactory();
             //HttpContext.Current.Session[DBFactory.MyPowerConStrName] = df;
             //df.CreateMyPowerConStr();

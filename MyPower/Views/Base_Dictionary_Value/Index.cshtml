@@ -5,26 +5,35 @@
 @model MyPower.DB.Base_Dictionary_Value
 
 @Html.HiddenFor(f => f.Base_Dictionary_Code)
-<table cellpadding="5">
-    <tr>
-        <td>Code:</td>
-        <td>
+
+<div class="Panel-Table-Main ">
+    <div>
+        <div>
+            Code:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Code, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>Name:</td>
-        <td>
+        </div>
+        <div>
+            Name:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>备注:</td>
-        <td>
+        </div>
+    </div>
+    <div>
+        <div>
+            备注:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
-        </td>
-    </tr>
-</table>
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
 
 
 

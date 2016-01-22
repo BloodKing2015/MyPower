@@ -8,12 +8,13 @@
 {
     <input type="hidden" name="ID" value="@Model.ID" />
 }
-<table cellpadding="5">
-    <tr>
-        <td>
+
+<div class="Panel-Table-Main ">
+    <div>
+        <div>
             上级部门:
-        </td>
-        <td>
+        </div>
+        <div>
             @if (Model != null)
             {
                 <input id="ParentId" name="ParentId" class="easyui-combotree" value="@Model.ParentId" style="width:200px;">
@@ -22,23 +23,25 @@
             {
                 <input id="ParentId" name="ParentId" class="easyui-combotree" style="width:200px;">
             }
-        </td>
-    </tr>
-    <tr>
-        <td>Code:</td>
-        <td>
+        </div>
+        <div>
+            Code:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Code, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>Name:</td>
-        <td>
+        </div>
+    </div>
+    <div>
+        <div>
+            Name:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
-        </td>
-    </tr>
-    <tr>
-        <td>部门负责人:</td>
-        <td>
+         </div>
+        <div>
+            部门负责人:
+        </div>
+        <div>
             @if (Model != null)
             {
                 <input id="Manager" name="Manager" class="easyui-combobox" value="@Model.Manager" style="width:200px;">
@@ -47,12 +50,13 @@
             {
                 <input id="Manager" name="Manager" class="easyui-combobox" style="width:200px;">
             }
-
-        </td>
-    </tr>
-    <tr>
-        <td>是否是部门:</td>
-        <td>
+        </div>
+    </div>
+    <div>
+        <div>
+            是否是部门:
+        </div>
+        <div>
             @if (Model != null)
             {
                 <input id="IsDepart" type="hidden" name="IsDepart" value="@Model.IsDepart" />
@@ -62,15 +66,25 @@
                 <input id="IsDepart" type="hidden" name="IsDepart" value="0" />
             }
             <input id="chkIsDepart" type="checkbox" onclick="chk(this)" />
-        </td>
-    </tr>
-    <tr>
-        <td>备注:</td>
-        <td>
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div>
+        <div>
+            备注:
+        </div>
+        <div>
             @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
-        </td>
-    </tr>
-</table>
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -124,8 +138,7 @@
                textField: 'Name'
            });
 
-        if($('#IsDepart').val()=='1')
-        {
+        if ($('#IsDepart').val() == '1') {
             $("#chkIsDepart").attr("checked", "true");
         }
     })
