@@ -20,9 +20,9 @@ namespace MyPower.Buiness
 {
     public class Base_logBLL
     {
-        public static void WriteException(Exception ex, int? userId)
+        public static void WriteException(Exception ex, int? userId, MyPowerConStr pcon)
         {
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = pcon;
             Base_log log = db.Base_log.Create();
             log.Code = ex.HResult.ToString();
             log.errorMsg = ex.Message;

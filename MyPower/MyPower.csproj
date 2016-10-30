@@ -173,6 +173,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BaseController\BussinessController.cs" />
     <Compile Include="BaseController\MyController.cs" />
+    <Compile Include="Common\Authorized.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Base_DepartmentController.cs" />
     <Compile Include="Controllers\Base_DictionaryController.cs" />
@@ -196,13 +197,15 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Form-Control-1.css" />
     <Content Include="Content\Form.css" />
+    <Content Include="Control\DepartMent.html" />
     <Content Include="css\style.css" />
-    <Content Include="Index.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\magnifier.jpg" />
     <Content Include="jquery-easyui-1.4.4\changelog.txt" />
     <Content Include="jquery-easyui-1.4.4\demo-mobile\accordion\basic.html" />
     <Content Include="jquery-easyui-1.4.4\demo-mobile\accordion\header.html" />
@@ -873,8 +876,18 @@
     <Content Include="jquery-easyui-1.4.4\themes\metro\validatebox.css" />
     <Content Include="jquery-easyui-1.4.4\themes\metro\window.css" />
     <Content Include="jquery-easyui-1.4.4\themes\mobile.css" />
+    <Content Include="js\Func.js" />
     <Content Include="js\index.js" />
     <Content Include="js\jquery.js" />
+    <Content Include="layer-v2.2\extend\layer.ext.js" />
+    <Content Include="layer-v2.2\layer.js" />
+    <Content Include="layer-v2.2\skin\default\icon-ext.png" />
+    <Content Include="layer-v2.2\skin\default\icon.png" />
+    <Content Include="layer-v2.2\skin\default\loading-0.gif" />
+    <Content Include="layer-v2.2\skin\default\loading-1.gif" />
+    <Content Include="layer-v2.2\skin\default\loading-2.gif" />
+    <Content Include="layer-v2.2\skin\layer.css" />
+    <Content Include="layer-v2.2\skin\layer.ext.css" />
     <Content Include="Lodop\install_lodop32.exe" />
     <Content Include="Lodop\install_lodop64.exe" />
     <Content Include="Lodop\LodopFuncs.js" />
@@ -900,6 +913,43 @@
     <Content Include="jquery-easyui-1.4.4\demo\treegrid\treegrid_data3.json" />
     <Content Include="jquery-easyui-1.4.4\demo\tree\tree_data1.json" />
     <Content Include="jquery-easyui-1.4.4\demo\tree\tree_data2.json" />
+    <Content Include="zTree_v3\.gitattributes" />
+    <Content Include="zTree_v3\.gitignore" />
+    <Content Include="zTree_v3\css\awesomeStyle\awesome.css" />
+    <Content Include="zTree_v3\css\awesomeStyle\img\loading.gif" />
+    <Content Include="zTree_v3\css\demo.css" />
+    <Content Include="zTree_v3\css\metroStyle\img\line_conn.png" />
+    <Content Include="zTree_v3\css\metroStyle\img\loading.gif" />
+    <Content Include="zTree_v3\css\metroStyle\img\metro.gif" />
+    <Content Include="zTree_v3\css\metroStyle\img\metro.png" />
+    <Content Include="zTree_v3\css\metroStyle\metroStyle.css" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\2.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\3.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\4.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\5.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\6.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\7.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\8.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\diy\9.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\line_conn.gif" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\loading.gif" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="zTree_v3\css\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="zTree_v3\css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="zTree_v3\js\jquery-1.4.4.min.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.all.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.all.min.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.core.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.core.min.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.excheck.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.excheck.min.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.exedit.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.exedit.min.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.exhide.js" />
+    <Content Include="zTree_v3\js\jquery.ztree.exhide.min.js" />
+    <Content Include="zTree_v3\log v3.x.txt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -952,6 +1002,10 @@
     <Content Include="Views\Base_Usr\Index.cshtml" />
     <Content Include="Views\Base_Usr\Edit.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="zTree_v3\css\awesomeStyle\awesome.less" />
+    <Content Include="zTree_v3\css\awesomeStyle\fa.less" />
+    <Content Include="zTree_v3\README.md" />
+    <Content Include="zTree_v3\zTree.v3.jquery.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -968,6 +1022,14 @@
       <Project>{2dd04bc6-7a38-40a1-87c7-4ca9f7580164}</Project>
       <Name>MyPower.Buiness</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyPower.CommonFuc\MyPower.CommonFuc.csproj">
+      <Project>{4772f248-3332-447b-85e0-caf601f9f168}</Project>
+      <Name>MyPower.CommonFuc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyPower.DAL\MyPower.DAL.csproj">
+      <Project>{8c22b08f-ff49-48f2-851f-3022c889eb73}</Project>
+      <Name>MyPower.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyPower.DB\MyPower.DB.csproj">
       <Project>{b3a2dcb1-fa14-4000-9873-b620239418d4}</Project>
       <Name>MyPower.DB</Name>
@@ -979,6 +1041,14 @@
     <ProjectReference Include="..\MyPower.HttpModule\MyPower.HttpModule.csproj">
       <Project>{24c0386f-91ad-484d-97b0-023cd528b2e5}</Project>
       <Name>MyPower.HttpModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyPower.IBLL\MyPower.IBLL.csproj">
+      <Project>{677d5458-1a5d-4e36-ab45-e690960d7c66}</Project>
+      <Name>MyPower.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyPower.IDAL\MyPower.IDAL.csproj">
+      <Project>{dfeb92f3-a652-46c7-913e-7cbeaa9f4a09}</Project>
+      <Name>MyPower.IDAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyPower.Model\MyPower.Model.csproj">
       <Project>{83e7def4-3647-4b9f-8521-146e41340c81}</Project>

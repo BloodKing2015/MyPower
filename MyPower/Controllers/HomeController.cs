@@ -49,7 +49,7 @@ namespace MyPower.Controllers
         public JsonResult Menu()
         {
             List<Menus> menuList = new List<Menus>();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 menuList = db.Menus.ToList();
             }

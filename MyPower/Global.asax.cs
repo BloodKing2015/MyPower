@@ -33,18 +33,18 @@ namespace MyPower
 
         protected void Session_Start()
         {
-            DBFactory df = new DBFactory();
-            Session[DBFactory.MyPowerConStrName] = df;
-            df.CreateMyPowerConStr();
+            //DBFactory df = new DBFactory();
+            //Session[DBFactory.MyPowerConStrName] = df;
+            //df.CreateMyPowerConStr();
         }
 
         protected void Session_End()
         {
-            DBFactory df = Session[DBFactory.MyPowerConStrName] as DBFactory;
-            if (df != null)
-            {
-                df.CreateMyPowerConStr();
-            }
+            //DBFactory df = Session[DBFactory.MyPowerConStrName] as DBFactory;
+            //if (df != null)
+            //{
+            //    df.CreateMyPowerConStr();
+            //}
         }
     }
 }

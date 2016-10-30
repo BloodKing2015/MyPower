@@ -9,6 +9,7 @@
  ***********************************************************************/
 
 using MyPower.Buiness;
+using MyPower.DB;
 using MyPower.Model;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,13 @@ namespace MyPower
         private const string UserSessionKey = "usr";
         protected const string AccountURL = "/Login/Index";
         protected const string HomeURL = "/Home/Index";
+        protected MyPowerConStr baseContext = null;
         /// <summary>
         /// 构造函数 判断 用户是否登录 未登录 到登录页面登录
         /// </summary>
         public MyController()
         {
-
+            baseContext = new MyPowerConStr();
         }
 
        
@@ -45,7 +47,7 @@ namespace MyPower
             {
                 userId = CurrentSession.C_User.ID;
             }
-            Base_logBLL.WriteException(filterContext.Exception, userId);
+            Base_logBLL.WriteException(filterContext.Exception, userId,baseContext);
         }
 
         #region function
@@ -77,7 +79,55 @@ namespace MyPower
                 return _CSession;
             }
         }
-        #endregion
+        #endregion       
+
+        // 摘要: 
+        //     在执行操作方法后调用。
+        //
+        // 参数: 
+        //   filterContext:
+        //     筛选器上下文。
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            ///TODO
+        }
+        //
+        // 摘要: 
+        //     在执行操作方法之前调用。
+        //
+        // 参数: 
+        //   filterContext:
+        //     筛选器上下文。
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+
+        }
+
+
+        // 摘要: 
+        //     在操作结果执行后调用。
+        //
+        // 参数: 
+        //   filterContext:
+        //     筛选器上下文。
+        protected override void OnResultExecuted(ResultExecutedContext filterContext)
+        {
+            baseContext.Dispose();
+        }
+        //
+        // 摘要: 
+        //     在操作结果执行之前调用。
+        //
+        // 参数: 
+        //   filterContext:
+        //     筛选器上下文。
+        protected override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            if (baseContext == null)
+            {
+                baseContext = new MyPowerConStr();
+            }
+        }
     }
 
 }

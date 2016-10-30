@@ -46,7 +46,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Post(Menus model)
         {
-            int result = MenuBLL.MenuSave(model);
+            int result = MenuBLL.Instance(baseContext).MenuSave(model);
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return Json(result);
         }
@@ -57,8 +57,8 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Delete(Menus model)
         {
-            int result = MenuBLL.Delete(model);
-            return Json(result);
+            bool result = MenuBLL.Instance(baseContext).Delete(model.ID);
+            return Json(result ? 1 : 0);
         }
 
 
@@ -69,7 +69,7 @@ namespace MyPower.Controllers
         public JsonResult MenuList()
         {
             List<Menus> menuList = new List<Menus>();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 menuList = db.Menus.ToList();
             }

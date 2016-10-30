@@ -1,0 +1,12 @@
+﻿.Control-img {
+    height: 12px;
+    cursor: pointer;
+    position: absolute;
+}
+
+
+.C-Button-col-1 {
+    margin-left:10%;
+    width: 80%;
+    text-align: center;
+}

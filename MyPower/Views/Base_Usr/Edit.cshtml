@@ -5,6 +5,86 @@
 @model MyPower.DB.Base_Usr
 @Html.HiddenFor(f => f.ID)
 
+<link rel="stylesheet" href="/Content/Form-Control-1.css" />
+<link type="text/css" rel="stylesheet" href="/zTree_v3/css/zTreeStyle/zTreeStyle.css" />
+<script type="text/javascript" src="/zTree_v3/js/jquery.ztree.all.min.js"></script>
+<script type="text/javascript" src="/zTree_v3/js/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="/zTree_v3/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="/zTree_v3/js/jquery.ztree.exedit.min.js"></script>
+<script type="text/javascript" src="/zTree_v3/js/jquery.ztree.exhide.min.js"></script>
+<script type="text/javascript" src="/layer-v2.2/layer.js"></script>
+<script type="text/javascript" src="/js/Func.js"></script>
+<script type="text/javascript">
+    var depIndex = '';
+    function lay() {
+        depIndex = layer.open({
+            type: 1,
+            shade: false,
+            area: ['400px', '400px'],
+            maxmin: true,
+
+            content: $('#DeptForm'),
+            zIndex: layer.zIndex, //重点1
+            success: function (layero) {
+                layer.setTop(layero); //重点2
+            },
+            yes: function (index, layero) {
+                //do something
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+
+    function f_SetDept(deptNames, deptIds) {
+        $("#DeptName").textbox('setValue', deptNames)//赋值
+        $("#DeptId").val(deptIds);
+    }
+
+    var setting = {
+        async: {
+            autoParam: ["id"],
+            enable: true,
+            url: '/Base_Department/GetNodeByParentId',
+            type: 'post'
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId"
+            }
+        },
+        check: {
+            enable: true,
+            chkStyle: 'checkbox',
+            chkboxType: { "Y": "s", "N": "ps" }
+        }
+    };
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting);
+    });
+
+    function OnSave() {
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        nodes = treeObj.getCheckedNodes(true);
+        deptNames = "";
+        deptIds = "";
+        for (var i = 0; i < nodes.length; i++) {
+            if (i < nodes.length - 1) {
+                deptNames += nodes[i].name + ",";
+                deptIds += nodes[i].id + ",";
+            }
+            else {
+                deptNames += nodes[i].name;
+                deptIds += nodes[i].id;
+            }
+        }
+        f_SetDept(deptNames, deptIds);
+        layer.close(depIndex); //执行关闭
+    }
+</script>
+
 <div class="Panel-Table-Main ">
     <div>
         <div>
@@ -42,8 +122,15 @@
             @Html.TextBoxFor(f => f.Sex, new Dictionary<string, object>() { { "class", "easyui-combobox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
         </div>
         <div>
+            部门:
         </div>
         <div>
+            <div>
+                <input type="text" id="DeptName" name="DeptName"
+                       readonly="readonly" class="easyui-textbox" style="width: 200px;" />
+                <img src="/Img/magnifier.jpg" class="Control-img" onclick="lay()" />
+            </div>
+            <input type="hidden" id="DeptId" name="DeptId" />
         </div>
     </div>
     <div>
@@ -53,6 +140,16 @@
         <div>
             @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:300px" } })
         </div>
+    </div>
+</div>
+
+
+<div id="DeptForm" style="display:none; height:320px;">
+    <div style="height:85%;">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div style="height:12%; padding-bottom:2px;">
+        <input class="C-Button-col-1" type="button" onclick="OnSave()" value="保             存" />
     </div>
 </div>
 

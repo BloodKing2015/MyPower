@@ -25,7 +25,7 @@ namespace MyPower.Controllers
         /// <returns></returns>
         public JsonResult UsrList()
         {
-            var modelList = Base_UsrBLL.GetUsrList();
+            var modelList = Base_UsrBLL.Instance(baseContext).GetUsrList();
             return Json(modelList);
         }
 
@@ -39,7 +39,7 @@ namespace MyPower.Controllers
             int totals = 0;
             int pageSize = Convert.ToInt32(Request["rows"]);
             int pageNum = Convert.ToInt32(Request["page"]);
-            List<Base_Usr> modelList = Base_UsrBLL.GetUsrByDeptId(deptId, pageNum, pageSize, out totals);
+            List<Base_Usr> modelList = Base_UsrBLL.Instance(baseContext).GetUsrByDeptId(deptId, pageNum, pageSize, out totals);
             var model = new
             {
                 total = totals,
@@ -70,7 +70,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Save(Base_Usr model)
         {
-            int result = Base_UsrBLL.Save(model);
+            int result = Base_UsrBLL.Instance(baseContext).Save(model);
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return Json(result);
         }
@@ -81,8 +81,14 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Delete(int id)
         {
-            int result = Base_UsrBLL.Delete(id);
+            int result = Base_UsrBLL.Instance(baseContext).Delete(id);
             return Json(result);
         }
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult GetUserRole(int userId)
+        {
+            return Json(Base_UsrBLL.Instance(baseContext).UserRole(userId));
+        }       
     }
 }

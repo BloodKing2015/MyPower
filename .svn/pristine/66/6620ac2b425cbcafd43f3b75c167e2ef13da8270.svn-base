@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "菜单编辑";
+    Layout = "~/Views/Shared/_ContentManage.cshtml";
+}
+@model MyPower.DB.Menus
+
+@Html.HiddenFor(m => m.ID)
+<div class="Panel-Table-Main ">
+    <div>
+        <div>
+            父菜单:
+        </div>
+        <div>
+            @Html.DropDownListFor(m => m.ParentId, ViewData["ParentMenus"] as List<SelectListItem>, "---Select---", new Dictionary<string, object>() { { "class", "easyui-combobox" }, { "style", "width:200px" } })
+        </div>
+        <div>
+            菜单名称:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+    </div>
+    <div>
+        <div>
+            编号:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Code, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+        <div>
+            URL:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.URL, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "style", "width:200px" } })
+        </div>
+    </div>
+    <div>
+        <div>
+            备注:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function Save() {
+        $.ajax({
+            type: "POST",
+            url: "/Menu/Post",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("菜单管理");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('保存失败', '保存失败!');
+                }
+            }
+        });
+    }
+
+    function Delete() {
+        $.ajax({
+            type: "POST",
+            url: "/Menu/Delete",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("菜单管理");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('删除失败', '删除失败!');
+                }
+            }
+        });
+    }
+</script>
+
+
+

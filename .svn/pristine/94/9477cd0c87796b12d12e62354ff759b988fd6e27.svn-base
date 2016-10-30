@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainManage.cshtml";
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#tgrid').treegrid({
+            onDblClickRow: function (row) {
+                window.parent.addPanel(row.Name+"--编辑", '/Menu/Edit/' + row.id);
+            }
+        });
+    })
+
+</script>
+<table id="tgrid" class="easyui-treegrid"
+       data-options="
+                url: '/Menu/MenuList',
+                method: 'post',
+                idField: 'id',
+                treeField: 'Name',
+                fit:true,
+                border:false
+            "
+       toolbar="#tb">
+    <thead>
+        <tr>
+            <th data-options="field:'Name'" width="30%">Name</th>
+            <th data-options="field:'code'" width="20%" align="right">Code</th>
+            <th data-options="field:'url'" width="50%">url</th>
+        </tr>
+    </thead>
+</table>
+
+<div id="tb">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="javascript: window.parent.addPanel('新增菜单', '/Menu/Edit')">新增</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cut" plain="true" onclick="javascript:alert('Cut')">剪切</a>
+</div>

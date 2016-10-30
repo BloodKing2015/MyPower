@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "部门管理";
+    Layout = "~/Views/Shared/_MainManage.cshtml";
+}
+
+<script type="text/javascript">
+    $(function () {
+        loadDept();
+
+        $("#a_Add").bind("click", function () {
+            window.parent.addPanel('新增字典', '/Base_Department/Edit')
+        });
+
+        $("#a_Delete").bind("click", function () {
+            var opts = $('#tbDept').datagrid('getChecked');
+            for (i = 0; i < opts.length; i++) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Base_Department/Delete",
+                    data: opts[i],
+                    success: function (msg) {
+                        if (msg > 0) {
+                            window.parent.removePanelByTitle("字典配置");
+                            CancelTab();
+                        }
+                        else {
+                            $.messager.alert('删除失败', '删除失败!');
+                        }
+                    }
+                });
+            }
+        });
+    })
+
+
+    //加载表格datagrid
+    function loadDept() {
+        //加载数据
+        $('#tDepart').treegrid({
+            idField: 'ID',
+            treeField: 'Code',
+            url: '/Base_Department/DeptList',
+            loadMsg: '数据加载中请稍后……',
+            columns: [[
+                { field: 'Code', title: 'Code', align: 'center', width: 200 },
+                { field: 'Name', title: '部门名称', align: 'center', width: 200 },
+                { field: 'Manager', title: '部门负责人', align: 'center', width: 200 },
+                { field: 'Createtime', title: '创建时间', align: 'center', width: 200 },
+                { field: 'Creater', title: '创建人', align: 'center', width: 200 }
+            ]],
+            onDblClickRow: function (row) {
+                window.parent.addPanel(row.Name + "--字典编辑", '/Base_Department/Edit/' + row.ID);
+            }
+        });
+    }
+
+</script>
+
+<table id="tDepart" class="easyui-treegrid"
+       data-options="fit:true,
+       border:false"
+       toolbar="#tbDept"></table>
+
+
+<div id="tbDept">
+    <a id="a_Add" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true">新增</a>
+    <a id="a_Delete" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" plain="true" onclick="javascript:alert('Cut')">删除</a>
+</div>

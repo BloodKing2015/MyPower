@@ -1,21 +1,49 @@
 ﻿using MyPower.CommonFuc;
 using MyPower.DB;
 using MyPower.Factory;
+using MyPower.IDAL;
 using MyPower.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace MyPower.Buiness
 {
-    public class Base_UsrBLL
+    public class Base_UsrBLL : BaseBLL<Base_Usr>
     {
-        public static List<Base_Usr> GetUsrList()
+        private static Base_UsrBLL m_Instance = null;
+        private Base_UsrBLL()
+        {
+            baseDAL = container.Resolve<IBase_UsrDAL>();
+        }
+
+        private static object syncRoot = new Object();
+        /// <summary>
+        /// 创建或者从缓存中获取对应业务类的实例
+        /// </summary>
+        public static Base_UsrBLL Instance(MyPowerConStr pcon)
+        {
+            if (m_Instance == null)
+            {
+                lock (syncRoot)
+                {
+                    if (m_Instance == null)
+                    {
+                        m_Instance = new Base_UsrBLL();                            
+                    }
+                }
+            }
+            m_Instance.InitData(pcon);
+            return m_Instance;
+        }
+
+        public List<Base_Usr> GetUsrList()
         {
             List<Base_Usr> entityList = new List<Base_Usr>();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = GetDB();
             entityList = (from item in db.Base_Usr.ToList()
                           select new Base_Usr()
                           {
@@ -37,12 +65,12 @@ namespace MyPower.Buiness
         }
 
 
-        public static List<Base_Usr> GetUsrByDeptId(int deptId, int pageNum, int pageSize, out int totals)
+        public List<Base_Usr> GetUsrByDeptId(int deptId, int pageNum, int pageSize, out int totals)
         {
             totals = 0;
             List<Base_Usr> result = new List<Base_Usr>();
             List<Base_Department> deptList = GetDepartAndSelf(deptId);
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = GetDB();
             List<Base_Usr> buList = new List<Base_Usr>();
             deptList.ForEach(
                 f =>
@@ -84,10 +112,10 @@ namespace MyPower.Buiness
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        public static List<Base_Department> GetDepartAndSelf(int deptId)
+        public List<Base_Department> GetDepartAndSelf(int deptId)
         {
             List<Base_Department> result = new List<Base_Department>();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = GetDB();
             Base_Department dept = db.Base_Department.FirstOrDefault(f => f.ID == deptId);
             if (dept != null)
             {
@@ -102,10 +130,10 @@ namespace MyPower.Buiness
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        private static List<Base_Department> GetDepart(int deptId)
+        private List<Base_Department> GetDepart(int deptId)
         {
             List<Base_Department> result = new List<Base_Department>();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = GetDB();
             foreach (Base_Department d in db.Base_Department.Where(w => (w.ParentId ?? 0) == deptId))
             {
                 result.Add(d);
@@ -115,17 +143,19 @@ namespace MyPower.Buiness
         }
 
 
-        public static int Save(Base_Usr model)
+        public int Save(Base_Usr model)
         {
             int result = 0;
             if (model != null)
             {
                 model.Createtime = DateTime.Now;
                 model.Creater = 1;
-                MyPowerConStr db = DBFactory.Instance();
+                MyPowerConStr db = GetDB();
+                Base_Usr tmodel = db.Base_Usr.FirstOrDefault(f => f.ID == model.ID);
                 db.Base_Usr.Add(model);
-                if (model.ID > 0)
+                if (tmodel != null)
                 {
+                    db.Entry<Base_Usr>(tmodel).State = System.Data.Entity.EntityState.Detached;
                     db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Modified;
                 }
                 else
@@ -138,14 +168,13 @@ namespace MyPower.Buiness
         }
 
 
-        public static int Delete(int id)
+        public int Delete(int id)
         {
             int result = 0;
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = GetDB();
             Base_Usr model = db.Base_Usr.FirstOrDefault(f => f.ID == id);
             if (model != null)
             {
-                db.Base_Usr.Add(model);
                 db.Entry<Base_Usr>(model).State = System.Data.Entity.EntityState.Deleted;
                 result = db.SaveChanges();
             }
@@ -154,11 +183,10 @@ namespace MyPower.Buiness
         }
 
         #region userLogin
-        public static SessionUser GetByAccountPwd(string account, string pwd)
+        public SessionUser GetByAccountPwd(string account, string pwd)
         {
             SessionUser model = null;
-            MyPowerConStr db = DBFactory.Instance();
-            Base_Usr bUser = db.Base_Usr.FirstOrDefault(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
+            Base_Usr bUser = baseDAL.FindSingle(f => string.Equals(f.Account, account) && string.Equals(f.Pwd, pwd));
             if (bUser != null)
             {
                 model = new SessionUser();
@@ -220,7 +248,7 @@ namespace MyPower.Buiness
             return model;
         }
 
-        private static CurrentUser ConvertUserToCurrentUser(Base_Usr usr)
+        private CurrentUser ConvertUserToCurrentUser(Base_Usr usr)
         {
             CurrentUser result = new CurrentUser();
             result.ID = usr.ID;
@@ -240,5 +268,54 @@ namespace MyPower.Buiness
         }
         #endregion
 
+
+        public List<int> UserRole(int userId)
+        {
+            List<int> list = new List<int>();
+            Base_Usr buser = baseDAL.FindByID(userId);
+            if (buser != null)
+            {
+                list = buser.Base_Role.Select(s => s.ID).ToList();
+            }
+            return list;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public int SaveUserRole(int userId, List<string> roles)
+        {
+            int result = 0;
+            Base_Usr buser = baseDAL.FindByID(userId);
+            if (buser != null)
+            {
+                ///清除
+                while (buser.Base_Role.Count > 0)
+                {
+                    buser.Base_Role.Remove(buser.Base_Role.First());
+                }
+
+                Base_Role br = null;
+                if (roles != null)
+                {
+                    //保存
+                    foreach (var item in roles)
+                    {
+                        br = Base_RoleBLL.Instance(GetDB()).FindByID(Int32.Parse(item));
+                        if (br == null)
+                        {
+                            continue;
+                        }
+                        buser.Base_Role.Add(br);
+                    }
+                }
+                result = baseDAL.Update(buser, userId) ? 1 : 0;
+            }
+            return result;
+        }
     }
 }

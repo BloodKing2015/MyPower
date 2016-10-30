@@ -26,7 +26,7 @@ namespace MyPower.Controllers
             RoleModel model = new RoleModel();
             int pageSize = Convert.ToInt32(Request["rows"]);
             int pageNum = Convert.ToInt32(Request["page"]);
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 model.total = db.Base_Role.Count();
                 model.rows = (from item in db.Base_Role
@@ -63,7 +63,7 @@ namespace MyPower.Controllers
         public ActionResult Edit(int? id)
         {
             Base_Role mEntity = null;
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 mEntity = db.Base_Role.FirstOrDefault(
                     f =>
@@ -79,7 +79,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Save(Base_Role model)
         {
-            int result = Base_RoleBLL.Save(model);
+            int result = Base_RoleBLL.Instance(baseContext).Save(model);
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return Json(result);
         }
@@ -90,8 +90,23 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Delete(Base_Role model)
         {
-            int result = Base_RoleBLL.Delete(model);
+            int result = Base_RoleBLL.Instance(baseContext).Delete(model);
             return Json(result);
+        }
+
+
+        public JsonResult GetAllRole()
+        {
+            List<Base_Role> list = Base_RoleBLL.Instance(baseContext).GetQueryable().OrderBy(o => o.ID).ToList();
+            return Json(list.Select(s => new { id = s.ID, name = s.Name, code = s.Code }));
+        }
+
+
+        [HttpPost]
+        public JsonResult SaveUserRole(UserRoleIn paramter)
+        {
+            return Json(Base_UsrBLL.Instance(baseContext).SaveUserRole(paramter.usrId,
+                paramter.roleIds.Trim('|').Split('|').ToList()));
         }
     }
 }

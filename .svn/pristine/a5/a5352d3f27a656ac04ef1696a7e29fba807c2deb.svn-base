@@ -1,0 +1,961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyPowerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Base_Buttons">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Base_Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDepart" Type="nvarchar" MaxLength="50" />
+          <Property Name="Manager" Type="int" />
+          <Property Name="ParentId" Type="int" />
+        </EntityType>
+        <EntityType Name="Base_Dictionary">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+        </EntityType>
+        <EntityType Name="Base_Dictionary_Value">
+          <Key>
+            <PropertyRef Name="Base_Dictionary_Code" />
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Base_Dictionary_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Base_log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="errorMsg" Type="text" />
+          <Property Name="ClientIP" Type="varchar" MaxLength="50" />
+          <Property Name="UsrId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_Login_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UsrId" Type="int" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="IP" Type="nvarchar" MaxLength="50" />
+          <Property Name="OpTime" Type="datetime" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_Menus_Buttons">
+          <Key>
+            <PropertyRef Name="MenuID" />
+            <PropertyRef Name="ButtonId" />
+          </Key>
+          <Property Name="MenuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ButtonId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_Recyclebin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Operation" Type="nvarchar" MaxLength="50" />
+          <Property Name="operator" Type="int" />
+          <Property Name="operateTime" Type="datetime" />
+          <Property Name="remark" Type="text" />
+        </EntityType>
+        <EntityType Name="Base_Recyclebin_dataSource">
+          <Key>
+            <PropertyRef Name="Base_Recyclebin_id" />
+            <PropertyRef Name="colName" />
+          </Key>
+          <Property Name="Base_Recyclebin_id" Type="int" Nullable="false" />
+          <Property Name="colName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="colValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="colType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Base_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Base_Role_Buttons">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="ButtonId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="ButtonId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_Role_Menus">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_UserGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Base_Usr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Account" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pwd" Type="nvarchar" MaxLength="16" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdCard" Type="nvarchar" MaxLength="36" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="JobCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomeAddress" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Base_Usr_Department">
+          <Key>
+            <PropertyRef Name="UsrId" />
+            <PropertyRef Name="DepartId" />
+          </Key>
+          <Property Name="UsrId" Type="int" Nullable="false" />
+          <Property Name="DepartId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_Usr_Role">
+          <Key>
+            <PropertyRef Name="UsrId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UsrId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Base_Usr_UsrGroup">
+          <Key>
+            <PropertyRef Name="UsrID" />
+            <PropertyRef Name="UsrGroupId" />
+          </Key>
+          <Property Name="UsrID" Type="int" Nullable="false" />
+          <Property Name="UsrGroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creater" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="URL" Type="nvarchar" MaxLength="100" />
+          <Property Name="logo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentId" Type="int" />
+        </EntityType>
+        <Association Name="FK_BASE_DIC_REFERENCE_BASE_DIC">
+          <End Role="Base_Dictionary" Type="Self.Base_Dictionary" Multiplicity="1" />
+          <End Role="Base_Dictionary_Value" Type="Self.Base_Dictionary_Value" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Dictionary">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Base_Dictionary_Value">
+              <PropertyRef Name="Base_Dictionary_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_LOG_REFERENCE_BASE_USR">
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="0..1" />
+          <End Role="Base_Login_log" Type="Self.Base_Login_log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Usr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Login_log">
+              <PropertyRef Name="UsrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_MEN_REFERENCE_BASE_BUT">
+          <End Role="Base_Buttons" Type="Self.Base_Buttons" Multiplicity="1" />
+          <End Role="Base_Menus_Buttons" Type="Self.Base_Menus_Buttons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Buttons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Menus_Buttons">
+              <PropertyRef Name="ButtonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_MEN_REFERENCE_MENUS">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+          <End Role="Base_Menus_Buttons" Type="Self.Base_Menus_Buttons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Menus_Buttons">
+              <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_REC_REFERENCE_BASE_REC">
+          <End Role="Base_Recyclebin" Type="Self.Base_Recyclebin" Multiplicity="1" />
+          <End Role="Base_Recyclebin_dataSource" Type="Self.Base_Recyclebin_dataSource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Recyclebin">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Recyclebin_dataSource">
+              <PropertyRef Name="Base_Recyclebin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_ROL_REFERENCE_BASE_BUT">
+          <End Role="Base_Buttons" Type="Self.Base_Buttons" Multiplicity="1" />
+          <End Role="Base_Role_Buttons" Type="Self.Base_Role_Buttons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Buttons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Role_Buttons">
+              <PropertyRef Name="ButtonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_ROL_REFERENCE_BASE_ROL">
+          <End Role="Base_Role" Type="Self.Base_Role" Multiplicity="1" />
+          <End Role="Base_Role_Buttons" Type="Self.Base_Role_Buttons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Role_Buttons">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_ROL_REFERENCE_BASE_ROL_1">
+          <End Role="Base_Role" Type="Self.Base_Role" Multiplicity="1" />
+          <End Role="Base_Role_Menus" Type="Self.Base_Role_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Role_Menus">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_ROL_REFERENCE_MENUS">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+          <End Role="Base_Role_Menus" Type="Self.Base_Role_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Role_Menus">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USR_REFERENCE_BASE_DEP">
+          <End Role="Base_Department" Type="Self.Base_Department" Multiplicity="1" />
+          <End Role="Base_Usr_Department" Type="Self.Base_Usr_Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Usr_Department">
+              <PropertyRef Name="DepartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USR_REFERENCE_BASE_ROL">
+          <End Role="Base_Role" Type="Self.Base_Role" Multiplicity="1" />
+          <End Role="Base_Usr_Role" Type="Self.Base_Usr_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Usr_Role">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USR_REFERENCE_BASE_USE">
+          <End Role="Base_UserGroup" Type="Self.Base_UserGroup" Multiplicity="1" />
+          <End Role="Base_Usr_UsrGroup" Type="Self.Base_Usr_UsrGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_UserGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Usr_UsrGroup">
+              <PropertyRef Name="UsrGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USR_REFERENCE_BASE_USR">
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="1" />
+          <End Role="Base_Usr_Department" Type="Self.Base_Usr_Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Usr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Usr_Department">
+              <PropertyRef Name="UsrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USR_REFERENCE_BASE_USR_1">
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="1" />
+          <End Role="Base_Usr_Role" Type="Self.Base_Usr_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Usr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Usr_Role">
+              <PropertyRef Name="UsrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USR_REFERENCE_BASE_USR_2">
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="1" />
+          <End Role="Base_Usr_UsrGroup" Type="Self.Base_Usr_UsrGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Usr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Usr_UsrGroup">
+              <PropertyRef Name="UsrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyPowerModelStoreContainer">
+          <EntitySet Name="Base_Buttons" EntityType="Self.Base_Buttons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Department" EntityType="Self.Base_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Dictionary" EntityType="Self.Base_Dictionary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Dictionary_Value" EntityType="Self.Base_Dictionary_Value" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_log" EntityType="Self.Base_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Login_log" EntityType="Self.Base_Login_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Menus_Buttons" EntityType="Self.Base_Menus_Buttons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Recyclebin" EntityType="Self.Base_Recyclebin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Recyclebin_dataSource" EntityType="Self.Base_Recyclebin_dataSource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Role" EntityType="Self.Base_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Role_Buttons" EntityType="Self.Base_Role_Buttons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Role_Menus" EntityType="Self.Base_Role_Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_UserGroup" EntityType="Self.Base_UserGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Usr" EntityType="Self.Base_Usr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Usr_Department" EntityType="Self.Base_Usr_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Usr_Role" EntityType="Self.Base_Usr_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Base_Usr_UsrGroup" EntityType="Self.Base_Usr_UsrGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BASE_DIC_REFERENCE_BASE_DIC" Association="Self.FK_BASE_DIC_REFERENCE_BASE_DIC">
+            <End Role="Base_Dictionary" EntitySet="Base_Dictionary" />
+            <End Role="Base_Dictionary_Value" EntitySet="Base_Dictionary_Value" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_LOG_REFERENCE_BASE_USR" Association="Self.FK_BASE_LOG_REFERENCE_BASE_USR">
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+            <End Role="Base_Login_log" EntitySet="Base_Login_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_MEN_REFERENCE_BASE_BUT" Association="Self.FK_BASE_MEN_REFERENCE_BASE_BUT">
+            <End Role="Base_Buttons" EntitySet="Base_Buttons" />
+            <End Role="Base_Menus_Buttons" EntitySet="Base_Menus_Buttons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_MEN_REFERENCE_MENUS" Association="Self.FK_BASE_MEN_REFERENCE_MENUS">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Base_Menus_Buttons" EntitySet="Base_Menus_Buttons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_REC_REFERENCE_BASE_REC" Association="Self.FK_BASE_REC_REFERENCE_BASE_REC">
+            <End Role="Base_Recyclebin" EntitySet="Base_Recyclebin" />
+            <End Role="Base_Recyclebin_dataSource" EntitySet="Base_Recyclebin_dataSource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_ROL_REFERENCE_BASE_BUT" Association="Self.FK_BASE_ROL_REFERENCE_BASE_BUT">
+            <End Role="Base_Buttons" EntitySet="Base_Buttons" />
+            <End Role="Base_Role_Buttons" EntitySet="Base_Role_Buttons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_ROL_REFERENCE_BASE_ROL" Association="Self.FK_BASE_ROL_REFERENCE_BASE_ROL">
+            <End Role="Base_Role" EntitySet="Base_Role" />
+            <End Role="Base_Role_Buttons" EntitySet="Base_Role_Buttons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_ROL_REFERENCE_BASE_ROL_1" Association="Self.FK_BASE_ROL_REFERENCE_BASE_ROL_1">
+            <End Role="Base_Role" EntitySet="Base_Role" />
+            <End Role="Base_Role_Menus" EntitySet="Base_Role_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_ROL_REFERENCE_MENUS" Association="Self.FK_BASE_ROL_REFERENCE_MENUS">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Base_Role_Menus" EntitySet="Base_Role_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USR_REFERENCE_BASE_DEP" Association="Self.FK_BASE_USR_REFERENCE_BASE_DEP">
+            <End Role="Base_Department" EntitySet="Base_Department" />
+            <End Role="Base_Usr_Department" EntitySet="Base_Usr_Department" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USR_REFERENCE_BASE_ROL" Association="Self.FK_BASE_USR_REFERENCE_BASE_ROL">
+            <End Role="Base_Role" EntitySet="Base_Role" />
+            <End Role="Base_Usr_Role" EntitySet="Base_Usr_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USR_REFERENCE_BASE_USE" Association="Self.FK_BASE_USR_REFERENCE_BASE_USE">
+            <End Role="Base_UserGroup" EntitySet="Base_UserGroup" />
+            <End Role="Base_Usr_UsrGroup" EntitySet="Base_Usr_UsrGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USR_REFERENCE_BASE_USR" Association="Self.FK_BASE_USR_REFERENCE_BASE_USR">
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+            <End Role="Base_Usr_Department" EntitySet="Base_Usr_Department" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USR_REFERENCE_BASE_USR_1" Association="Self.FK_BASE_USR_REFERENCE_BASE_USR_1">
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+            <End Role="Base_Usr_Role" EntitySet="Base_Usr_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USR_REFERENCE_BASE_USR_2" Association="Self.FK_BASE_USR_REFERENCE_BASE_USR_2">
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+            <End Role="Base_Usr_UsrGroup" EntitySet="Base_Usr_UsrGroup" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyPowerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Base_Buttons">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Menus" Relationship="Self.Base_Menus_Buttons" FromRole="Base_Buttons" ToRole="Menus" />
+          <NavigationProperty Name="Base_Role" Relationship="Self.Base_Role_Buttons" FromRole="Base_Buttons" ToRole="Base_Role" />
+        </EntityType>
+        <EntityType Name="Base_Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDepart" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Manager" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <NavigationProperty Name="Base_Usr" Relationship="Self.Base_Usr_Department" FromRole="Base_Department" ToRole="Base_Usr" />
+        </EntityType>
+        <EntityType Name="Base_log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="errorMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ClientIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UsrId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Base_Login_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UsrId" Type="Int32" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpTime" Type="DateTime" Precision="3" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Base_Usr" Relationship="Self.FK_BASE_LOG_REFERENCE_BASE_USR" FromRole="Base_Login_log" ToRole="Base_Usr" />
+        </EntityType>
+        <EntityType Name="Base_Recyclebin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Operation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="operator" Type="Int32" />
+          <Property Name="operateTime" Type="DateTime" Precision="3" />
+          <Property Name="remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Base_Recyclebin_dataSource" Relationship="Self.FK_BASE_REC_REFERENCE_BASE_REC" FromRole="Base_Recyclebin" ToRole="Base_Recyclebin_dataSource" />
+        </EntityType>
+        <EntityType Name="Base_Recyclebin_dataSource">
+          <Key>
+            <PropertyRef Name="Base_Recyclebin_id" />
+            <PropertyRef Name="colName" />
+          </Key>
+          <Property Name="Base_Recyclebin_id" Type="Int32" Nullable="false" />
+          <Property Name="colName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="colValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="colType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Base_Recyclebin" Relationship="Self.FK_BASE_REC_REFERENCE_BASE_REC" FromRole="Base_Recyclebin_dataSource" ToRole="Base_Recyclebin" />
+        </EntityType>
+        <EntityType Name="Base_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Base_Buttons" Relationship="Self.Base_Role_Buttons" FromRole="Base_Role" ToRole="Base_Buttons" />
+          <NavigationProperty Name="Menus" Relationship="Self.Base_Role_Menus" FromRole="Base_Role" ToRole="Menus" />
+          <NavigationProperty Name="Base_Usr" Relationship="Self.Base_Usr_Role" FromRole="Base_Role" ToRole="Base_Usr" />
+        </EntityType>
+        <EntityType Name="Base_UserGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Base_Usr" Relationship="Self.Base_Usr_UsrGroup" FromRole="Base_UserGroup" ToRole="Base_Usr" />
+        </EntityType>
+        <EntityType Name="Base_Usr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pwd" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdCard" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JobCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HomeAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Base_Login_log" Relationship="Self.FK_BASE_LOG_REFERENCE_BASE_USR" FromRole="Base_Usr" ToRole="Base_Login_log" />
+          <NavigationProperty Name="Base_Department" Relationship="Self.Base_Usr_Department" FromRole="Base_Usr" ToRole="Base_Department" />
+          <NavigationProperty Name="Base_Role" Relationship="Self.Base_Usr_Role" FromRole="Base_Usr" ToRole="Base_Role" />
+          <NavigationProperty Name="Base_UserGroup" Relationship="Self.Base_Usr_UsrGroup" FromRole="Base_Usr" ToRole="Base_UserGroup" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="logo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <NavigationProperty Name="Base_Buttons" Relationship="Self.Base_Menus_Buttons" FromRole="Menus" ToRole="Base_Buttons" />
+          <NavigationProperty Name="Base_Role" Relationship="Self.Base_Role_Menus" FromRole="Menus" ToRole="Base_Role" />
+        </EntityType>
+        <Association Name="FK_BASE_LOG_REFERENCE_BASE_USR">
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="0..1" />
+          <End Role="Base_Login_log" Type="Self.Base_Login_log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Usr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Login_log">
+              <PropertyRef Name="UsrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_REC_REFERENCE_BASE_REC">
+          <End Role="Base_Recyclebin" Type="Self.Base_Recyclebin" Multiplicity="1" />
+          <End Role="Base_Recyclebin_dataSource" Type="Self.Base_Recyclebin_dataSource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Recyclebin">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Base_Recyclebin_dataSource">
+              <PropertyRef Name="Base_Recyclebin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Base_Menus_Buttons">
+          <End Role="Base_Buttons" Type="Self.Base_Buttons" Multiplicity="*" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+        </Association>
+        <Association Name="Base_Role_Buttons">
+          <End Role="Base_Buttons" Type="Self.Base_Buttons" Multiplicity="*" />
+          <End Role="Base_Role" Type="Self.Base_Role" Multiplicity="*" />
+        </Association>
+        <Association Name="Base_Role_Menus">
+          <End Role="Base_Role" Type="Self.Base_Role" Multiplicity="*" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+        </Association>
+        <Association Name="Base_Usr_Department">
+          <End Role="Base_Department" Type="Self.Base_Department" Multiplicity="*" />
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="*" />
+        </Association>
+        <Association Name="Base_Usr_Role">
+          <End Role="Base_Role" Type="Self.Base_Role" Multiplicity="*" />
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="*" />
+        </Association>
+        <Association Name="Base_Usr_UsrGroup">
+          <End Role="Base_UserGroup" Type="Self.Base_UserGroup" Multiplicity="*" />
+          <End Role="Base_Usr" Type="Self.Base_Usr" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MyPowerConStr" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Base_Buttons" EntityType="Self.Base_Buttons" />
+          <EntitySet Name="Base_Department" EntityType="Self.Base_Department" />
+          <EntitySet Name="Base_log" EntityType="Self.Base_log" />
+          <EntitySet Name="Base_Login_log" EntityType="Self.Base_Login_log" />
+          <EntitySet Name="Base_Recyclebin" EntityType="Self.Base_Recyclebin" />
+          <EntitySet Name="Base_Recyclebin_dataSource" EntityType="Self.Base_Recyclebin_dataSource" />
+          <EntitySet Name="Base_Role" EntityType="Self.Base_Role" />
+          <EntitySet Name="Base_UserGroup" EntityType="Self.Base_UserGroup" />
+          <EntitySet Name="Base_Usr" EntityType="Self.Base_Usr" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" />
+          <AssociationSet Name="FK_BASE_LOG_REFERENCE_BASE_USR" Association="Self.FK_BASE_LOG_REFERENCE_BASE_USR">
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+            <End Role="Base_Login_log" EntitySet="Base_Login_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_REC_REFERENCE_BASE_REC" Association="Self.FK_BASE_REC_REFERENCE_BASE_REC">
+            <End Role="Base_Recyclebin" EntitySet="Base_Recyclebin" />
+            <End Role="Base_Recyclebin_dataSource" EntitySet="Base_Recyclebin_dataSource" />
+          </AssociationSet>
+          <AssociationSet Name="Base_Menus_Buttons" Association="Self.Base_Menus_Buttons">
+            <End Role="Base_Buttons" EntitySet="Base_Buttons" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="Base_Role_Buttons" Association="Self.Base_Role_Buttons">
+            <End Role="Base_Buttons" EntitySet="Base_Buttons" />
+            <End Role="Base_Role" EntitySet="Base_Role" />
+          </AssociationSet>
+          <AssociationSet Name="Base_Role_Menus" Association="Self.Base_Role_Menus">
+            <End Role="Base_Role" EntitySet="Base_Role" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="Base_Usr_Department" Association="Self.Base_Usr_Department">
+            <End Role="Base_Department" EntitySet="Base_Department" />
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+          </AssociationSet>
+          <AssociationSet Name="Base_Usr_Role" Association="Self.Base_Usr_Role">
+            <End Role="Base_Role" EntitySet="Base_Role" />
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+          </AssociationSet>
+          <AssociationSet Name="Base_Usr_UsrGroup" Association="Self.Base_Usr_UsrGroup">
+            <End Role="Base_UserGroup" EntitySet="Base_UserGroup" />
+            <End Role="Base_Usr" EntitySet="Base_Usr" />
+          </AssociationSet>
+          <EntitySet Name="Base_Dictionary" EntityType="MyPowerModel.Base_Dictionary" />
+          <EntitySet Name="Base_Dictionary_Value" EntityType="MyPowerModel.Base_Dictionary_Value" />
+          <AssociationSet Name="FK_BASE_DIC_REFERENCE_BASE_DIC" Association="MyPowerModel.FK_BASE_DIC_REFERENCE_BASE_DIC">
+            <End Role="Base_Dictionary" EntitySet="Base_Dictionary" />
+            <End Role="Base_Dictionary_Value" EntitySet="Base_Dictionary_Value" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Base_Dictionary">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Base_Dictionary_Value" Relationship="MyPowerModel.FK_BASE_DIC_REFERENCE_BASE_DIC" FromRole="Base_Dictionary" ToRole="Base_Dictionary_Value" />
+        </EntityType>
+        <EntityType Name="Base_Dictionary_Value">
+          <Key>
+            <PropertyRef Name="Base_Dictionary_Code" />
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Base_Dictionary_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Base_Dictionary" Relationship="MyPowerModel.FK_BASE_DIC_REFERENCE_BASE_DIC" FromRole="Base_Dictionary_Value" ToRole="Base_Dictionary" />
+        </EntityType>
+        <Association Name="FK_BASE_DIC_REFERENCE_BASE_DIC">
+          <End Type="MyPowerModel.Base_Dictionary" Role="Base_Dictionary" Multiplicity="1" />
+          <End Type="MyPowerModel.Base_Dictionary_Value" Role="Base_Dictionary_Value" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Base_Dictionary">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Base_Dictionary_Value">
+              <PropertyRef Name="Base_Dictionary_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyPowerModelStoreContainer" CdmEntityContainer="MyPowerConStr">
+          <EntitySetMapping Name="Base_Buttons">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Buttons">
+              <MappingFragment StoreEntitySet="Base_Buttons">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Department">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Department">
+              <MappingFragment StoreEntitySet="Base_Department">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsDepart" ColumnName="IsDepart" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_log">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_log">
+              <MappingFragment StoreEntitySet="Base_log">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="errorMsg" ColumnName="errorMsg" />
+                <ScalarProperty Name="ClientIP" ColumnName="ClientIP" />
+                <ScalarProperty Name="UsrId" ColumnName="UsrId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Login_log">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Login_log">
+              <MappingFragment StoreEntitySet="Base_Login_log">
+                <ScalarProperty Name="UsrId" ColumnName="UsrId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="OpTime" ColumnName="OpTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Recyclebin">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Recyclebin">
+              <MappingFragment StoreEntitySet="Base_Recyclebin">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="Operation" ColumnName="Operation" />
+                <ScalarProperty Name="operator" ColumnName="operator" />
+                <ScalarProperty Name="operateTime" ColumnName="operateTime" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Recyclebin_dataSource">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Recyclebin_dataSource">
+              <MappingFragment StoreEntitySet="Base_Recyclebin_dataSource">
+                <ScalarProperty Name="Base_Recyclebin_id" ColumnName="Base_Recyclebin_id" />
+                <ScalarProperty Name="colName" ColumnName="colName" />
+                <ScalarProperty Name="colValue" ColumnName="colValue" />
+                <ScalarProperty Name="colType" ColumnName="colType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Role">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Role">
+              <MappingFragment StoreEntitySet="Base_Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_UserGroup">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_UserGroup">
+              <MappingFragment StoreEntitySet="Base_UserGroup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Usr">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Usr">
+              <MappingFragment StoreEntitySet="Base_Usr">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="HomeAddress" ColumnName="HomeAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="MyPowerModel.Menus">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Base_Menus_Buttons" TypeName="MyPowerModel.Base_Menus_Buttons" StoreEntitySet="Base_Menus_Buttons">
+            <EndProperty Name="Base_Buttons">
+              <ScalarProperty Name="ID" ColumnName="ButtonId" />
+            </EndProperty>
+            <EndProperty Name="Menus">
+              <ScalarProperty Name="ID" ColumnName="MenuID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Base_Role_Buttons" TypeName="MyPowerModel.Base_Role_Buttons" StoreEntitySet="Base_Role_Buttons">
+            <EndProperty Name="Base_Buttons">
+              <ScalarProperty Name="ID" ColumnName="ButtonId" />
+            </EndProperty>
+            <EndProperty Name="Base_Role">
+              <ScalarProperty Name="ID" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Base_Role_Menus" TypeName="MyPowerModel.Base_Role_Menus" StoreEntitySet="Base_Role_Menus">
+            <EndProperty Name="Base_Role">
+              <ScalarProperty Name="ID" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="Menus">
+              <ScalarProperty Name="ID" ColumnName="MenuId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Base_Usr_Department" TypeName="MyPowerModel.Base_Usr_Department" StoreEntitySet="Base_Usr_Department">
+            <EndProperty Name="Base_Department">
+              <ScalarProperty Name="ID" ColumnName="DepartId" />
+            </EndProperty>
+            <EndProperty Name="Base_Usr">
+              <ScalarProperty Name="ID" ColumnName="UsrId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Base_Usr_Role" TypeName="MyPowerModel.Base_Usr_Role" StoreEntitySet="Base_Usr_Role">
+            <EndProperty Name="Base_Role">
+              <ScalarProperty Name="ID" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Base_Usr">
+              <ScalarProperty Name="ID" ColumnName="UsrId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Base_Usr_UsrGroup" TypeName="MyPowerModel.Base_Usr_UsrGroup" StoreEntitySet="Base_Usr_UsrGroup">
+            <EndProperty Name="Base_UserGroup">
+              <ScalarProperty Name="ID" ColumnName="UsrGroupId" />
+            </EndProperty>
+            <EndProperty Name="Base_Usr">
+              <ScalarProperty Name="ID" ColumnName="UsrID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Base_Dictionary">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Dictionary">
+              <MappingFragment StoreEntitySet="Base_Dictionary">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Base_Dictionary_Value">
+            <EntityTypeMapping TypeName="MyPowerModel.Base_Dictionary_Value">
+              <MappingFragment StoreEntitySet="Base_Dictionary_Value">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Base_Dictionary_Code" ColumnName="Base_Dictionary_Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

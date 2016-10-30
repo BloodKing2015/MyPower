@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "部门编辑";
+    Layout = "~/Views/Shared/_ContentManage.cshtml";
+}
+@model MyPower.DB.Base_Department
+
+@if (Model != null)
+{
+    <input type="hidden" name="ID" value="@Model.ID" />
+}
+
+<div class="Panel-Table-Main ">
+    <div>
+        <div>
+            上级部门:
+        </div>
+        <div>
+            @if (Model != null)
+            {
+                <input id="ParentId" name="ParentId" class="easyui-combotree" value="@Model.ParentId" style="width:200px;">
+            }
+            else
+            {
+                <input id="ParentId" name="ParentId" class="easyui-combotree" style="width:200px;">
+            }
+        </div>
+        <div>
+            Code:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Code, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+    </div>
+    <div>
+        <div>
+            Name:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+         </div>
+        <div>
+            部门负责人:
+        </div>
+        <div>
+            @if (Model != null)
+            {
+                <input id="Manager" name="Manager" class="easyui-combobox" value="@Model.Manager" style="width:200px;">
+            }
+            else
+            {
+                <input id="Manager" name="Manager" class="easyui-combobox" style="width:200px;">
+            }
+        </div>
+    </div>
+    <div>
+        <div>
+            是否是部门:
+        </div>
+        <div>
+            @if (Model != null)
+            {
+                <input id="IsDepart" type="hidden" name="IsDepart" value="@Model.IsDepart" />
+            }
+            else
+            {
+                <input id="IsDepart" type="hidden" name="IsDepart" value="0" />
+            }
+            <input id="chkIsDepart" type="checkbox" onclick="chk(this)" />
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div>
+        <div>
+            备注:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:200px" } })
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function Save() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Department/Save",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("组织机构");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('保存失败', '保存失败!');
+                }
+            }
+        });
+    }
+
+    function Delete() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Department/Delete",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("组织机构");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('删除失败', '删除失败!');
+                }
+            }
+        });
+    }
+
+
+    $(function () {
+        $('#ParentId').combotree(
+           {
+               url: '/Base_Department/TreeDeptList'
+           });
+
+        $('#Manager').combobox(
+           {
+               required: true,
+               url: '/Base_Usr/UsrList',
+               valueField: 'ID',
+               textField: 'Name'
+           });
+
+        if ($('#IsDepart').val() == '1') {
+            $("#chkIsDepart").attr("checked", "true");
+        }
+    })
+
+    function chk(it) {
+        if (it.checked) {
+            $('#IsDepart').val('1');
+        }
+        else {
+            $('#IsDepart').val('0');
+        }
+    }
+</script>

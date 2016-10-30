@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <connectionStrings>
+    <add name="MyPowerConStr" connectionString="metadata=res://*/MyPower.csdl|res://*/MyPower.ssdl|res://*/MyPower.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=DAIDCH-PC;initial catalog=MyPower;persist security info=True;user id=sa;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
+</configuration>

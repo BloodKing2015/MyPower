@@ -1,49 +1,62 @@
 ﻿using MyPower.DB;
 using MyPower.Factory;
+using MyPower.IDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace MyPower.Buiness
 {
-    public class MenuBLL
+    public class MenuBLL : BaseBLL<Menus>
     {
-        public static int MenuSave(Menus model)
+        private static MenuBLL m_Instance = null;
+        private MenuBLL()
+        {
+            baseDAL = container.Resolve<IMenuDAL>();
+        }
+
+        private static object syncRoot = new Object();
+        /// <summary>
+        /// 创建或者从缓存中获取对应业务类的实例
+        /// </summary>
+        public static MenuBLL Instance(MyPowerConStr pcon)
+        {
+            if (m_Instance == null)
+            {
+                lock (syncRoot)
+                {
+                    if (m_Instance == null)
+                    {
+                        m_Instance = new MenuBLL();
+                    }
+                }
+            }
+            m_Instance.InitData(pcon);
+            return m_Instance;
+        }
+
+        public int MenuSave(Menus model)
         {
             int result = 0;
             if (model != null)
             {
                 model.Createtime = DateTime.Now;
                 model.Creater = 1;
-                MyPowerConStr db = DBFactory.Instance();
-                db.Menus.Add(model);
-                if (model.ID > 0)
+                MyPowerConStr db = GetDB();
+
+                Menus tmodel = FindByID(model.ID);
+                if (tmodel != null)
                 {
-                    db.Entry<Menus>(model).State = System.Data.Entity.EntityState.Modified;
+                    result = Update(model, model.ID) ? 1 : 0;
                 }
                 else
                 {
-                    db.Entry<Menus>(model).State = System.Data.Entity.EntityState.Added;
+                    result = Insert(model) ? 1 : 0;
                 }
-                result = db.SaveChanges();
             }
-            return result;
-        }
-
-
-        public static int Delete(Menus model)
-        {
-            int result = 0;
-            if (model != null)
-            {
-                MyPowerConStr db = DBFactory.Instance();
-                db.Menus.Add(model);
-                db.Entry<Menus>(model).State = System.Data.Entity.EntityState.Deleted;
-                result = db.SaveChanges();
-            }
-
             return result;
         }
     }

@@ -23,7 +23,7 @@ namespace MyPower.Controllers
         public ActionResult MainDictionary(string code)
         {
             Base_Dictionary mEntity = null;
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 mEntity = db.Base_Dictionary.FirstOrDefault(
                     f =>
@@ -46,7 +46,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Save(Base_Dictionary model)
         {
-            int result = Base_DictionaryBLL.Save(model);
+            int result = Base_DictionaryBLL.Save(model, baseContext);
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return Json(result);
         }
@@ -57,7 +57,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Delete(Base_Dictionary model)
         {
-            int result = Base_DictionaryBLL.Delete(model);
+            int result = Base_DictionaryBLL.Delete(model, baseContext);
             return Json(result);
         }
 
@@ -66,7 +66,7 @@ namespace MyPower.Controllers
             int pageSize = Convert.ToInt32(Request["rows"]);
             int pageNum = Convert.ToInt32(Request["page"]);
             DicModel model = new DicModel();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 model.total = db.Base_Dictionary.Count();
                 model.rows = (from item in db.Base_Dictionary.ToList()
@@ -95,7 +95,7 @@ namespace MyPower.Controllers
         [Route("Base_Dictionary/GetDicValue/{code}")]
         public JsonResult GetDicValue(string code)
         {
-            List<Base_Dictionary_Value> list = Base_DictionaryBLL.GetDicValue(code);
+            List<Base_Dictionary_Value> list = Base_DictionaryBLL.GetDicValue(code, baseContext);
             var result = list.Select(s => new { code = s.Code, Name = s.Name }).OrderBy(o => o.code).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }

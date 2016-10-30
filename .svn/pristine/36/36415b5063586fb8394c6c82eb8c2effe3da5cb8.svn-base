@@ -1,0 +1,163 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainManage.cshtml";
+}
+
+<style type="text/css">
+    .roleStyle {
+        width: 90%;
+        float: left;
+        padding: 5px;
+    }
+
+        .roleStyle > div {
+            width: 100%;
+            float: left;
+            padding-bottom: 5px;
+        }
+
+            .roleStyle > div > div {
+                width: 40%;
+                float: left;
+            }
+
+                .roleStyle > div > div:first-child {
+                    padding-right: 30px;
+                }
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        loadTree();
+
+        LoadRole();
+
+        $("#a_Delete").bind("click", function () {
+            var opts = $('#tUsr').datagrid('getChecked');
+            for (i = 0; i < opts.length; i++) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Base_Dictionary/Delete",
+                    data: opts[i],
+                    success: function (msg) {
+                        if (msg > 0) {
+                            window.parent.removePanelByTitle("用户管理");
+                            CancelTab();
+                        }
+                        else {
+                            $.messager.alert('删除失败', '删除失败!');
+                        }
+                    }
+                });
+            }
+        });
+    })
+
+
+    //加载表格datagrid
+    function loadTree() {
+        //加载数据
+        $('#tDept').tree({
+            url: '/Base_Department/TreeDeptList',
+            onClick: function (node) {
+                loadUsr(node.id);  // 加载用户信息
+
+                BindEvent(node.id);
+            }
+        });
+    }
+
+
+    function loadUsr(deptId) {
+        $('#tUsr').datagrid({
+            striped: true,
+            singleSelect: false,
+            url: '/Base_Usr/DepartUsrList/' + deptId,
+            //queryParams:{},
+            loadMsg: '数据加载中请稍后……',
+            pagination: true,
+            rownumbers: true,
+            columns: [[
+                { field: 'ck', checkbox: true, align: 'center', width: 10 },
+                { field: 'Account', title: '登录名', align: 'center', width: 100 },
+                { field: 'Name', title: '用户名', align: 'center', width: 100 },
+                { field: 'JobCode', title: '工号', align: 'center', width: 100 },
+                {
+                    field: 'Sex', title: '性别', align: 'center', width: 50,
+                    formatter: function (value, row, index) {
+                        if (value == '1') {
+                            return "男";
+                        } else {
+                            return "女";
+                        }
+                    }
+                }
+            ]],
+            onDblClickRow: function (index, row) {
+                window.parent.addPanel(row.Name + "--用户编辑", '/Base_Usr/Edit/' + row.ID);
+            }
+        });
+    }
+
+
+    function BindEvent(deptId) {
+        $("#a_Add").unbind("click");
+        $("#a_Add").bind("click", function () {
+            window.parent.addPanel('新增用户', '/Base_Usr/Edit')
+        });
+
+    }
+
+
+    function LoadRole() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Role/GetAllRole",
+            success: function (data) {
+                if (data.length > 0) {
+                    var inerHtml = "";
+                    for (i = 0; i < data.length; i++) {
+                        inerHtml += "<div> ";
+                        inerHtml += "<div> <input id='chk_" + data[i].id + "' type='checkbox'>" + data[i].name + "</div>";
+                        i++;
+                        if (i < data.length) {
+                            inerHtml += "<div> <input id='chk_" + data[i].id + "' type='checkbox'>" + data[i].name + "</div>";
+                        }
+                        else {
+                            inerHtml += "<div></div> ";
+                        }
+                        inerHtml += "</div> ";
+                    }
+                    $(".roleStyle").append(inerHtml);
+                }
+            }
+        });
+    }
+
+</script>
+
+
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'west',split:true,title:'部门',collapsible:false" style="width:300px;">
+        <ul id="tDept"></ul>
+    </div>
+    <div data-options="region:'center',title:'人员'">
+        <table id="tUsr" class="easyui-datagrid"
+               data-options="
+               fit:true,
+               border:false"
+               toolbar="#tbDept"></table>
+    </div>
+    <div data-options="region:'east',split:true,title:'角色',collapsible:false" style="width:300px;">
+        <div class="roleStyle">
+        </div>
+    </div>
+</div>
+
+<div id="tbDept">
+    <a id="a_Add" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true">新增</a>
+    <a id="a_Delete" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" plain="true">删除</a>
+</div>
+
+<div id="tbProperty">
+    <a id="a_AddProperty" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" plain="true">保存</a>
+</div>

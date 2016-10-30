@@ -1,0 +1,59 @@
+﻿using MyPower.DB;
+using MyPower.Factory;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MyPower.Buiness
+{
+    public class BaseBLL<TEntity> where TEntity : class
+    {
+        /// <summary>
+        /// 保持 更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="fun"></param>
+        /// <returns></returns>
+        public static int SaveChange(TEntity entity, Func<TEntity, TEntity, bool> fun)
+        {
+            int result = 0;
+            MyPowerConStr db = DBFactory.Instance();
+
+            TEntity tmodel = db.Set<TEntity>().FirstOrDefault(f => fun(f, entity));
+            db.Set<TEntity>().Add(entity);
+            if (tmodel != null)
+            {
+                db.Entry<TEntity>(tmodel).State = System.Data.Entity.EntityState.Detached;
+                db.Entry<TEntity>(entity).State = System.Data.Entity.EntityState.Modified;
+            }
+            else
+            {
+                db.Entry<TEntity>(entity).State = System.Data.Entity.EntityState.Added;
+            }
+            result = db.SaveChanges();
+            return result;
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="fun"></param>
+        /// <returns></returns>
+        public static int Delete(TEntity entity, Func<TEntity, TEntity, bool> fun)
+        {
+            int result = 0;
+            if (entity != null)
+            {
+                MyPowerConStr db = DBFactory.Instance();
+                entity = db.Set<TEntity>().FirstOrDefault(f => fun(f, entity));
+                db.Entry<TEntity>(entity).State = System.Data.Entity.EntityState.Deleted;
+                result = db.SaveChanges();
+            }
+
+            return result;
+        }
+    }
+}

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link type="text/css" rel="stylesheet" href="/zTree_v3/css/zTreeStyle/zTreeStyle.css" />
+    <script type="text/javascript" src="/zTree_v3/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/zTree_v3/js/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/zTree_v3/js/jquery.ztree.core.min.js"></script>
+    <script type="text/javascript" src="/zTree_v3/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/zTree_v3/js/jquery.ztree.exedit.min.js"></script>
+    <script type="text/javascript" src="/zTree_v3/js/jquery.ztree.exhide.min.js"></script>
+    <script type="text/javascript" src="/layer-v2.2/layer.js"></script>
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <script type="text/javascript">
+        var setting = {
+            async: {
+                autoParam: ["id"],
+                enable: true,
+                url: '/Base_Department/GetNodeByParentId',
+                type: 'post'
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId"
+                }
+            },
+            check: {
+                enable: true,
+                chkStyle: 'checkbox',
+                chkboxType: { "Y": "s", "N": "ps" }
+            }
+        };
+
+        $(document).ready(function () {
+            $.fn.zTree.init($("#treeDemo"), setting);
+        });
+
+        var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
+        function OnSave() {
+            debugger;
+            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            nodes = treeObj.getCheckedNodes(true);
+            deptNames = "";
+            deptIds = "";
+            for (var i = 0; i < nodes.length; i++) {
+                if (i < nodes.length - 1) {
+                    deptNames += nodes[i].name + ",";
+                    deptIds += nodes[i].id + ",";
+                }
+                else {
+                    deptNames += nodes[i].name;
+                    deptIds += nodes[i].id;
+                }
+            }
+            parent.f_SetDept(deptNames, deptIds);
+            parent.layer.close(index); //执行关闭
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div>
+        <input type="button" onclick="OnSave()" value="保存" />
+    </div>
+</body>
+</html>

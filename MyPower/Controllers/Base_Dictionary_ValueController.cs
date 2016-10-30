@@ -18,7 +18,7 @@ namespace MyPower.Controllers
             DicValueModel model = new DicValueModel();
             model.rows = new List<DicValue>();
             List<Base_Dictionary_Value> dvList = new List<Base_Dictionary_Value>();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 dvList = (from item in db.Base_Dictionary_Value
                           where string.Equals(item.Base_Dictionary_Code, dicCode)
@@ -49,7 +49,7 @@ namespace MyPower.Controllers
         public ActionResult Edit(string dicValueCode, string dicCode)
         {
             Base_Dictionary_Value dv = new Base_Dictionary_Value();
-            MyPowerConStr db = DBFactory.Instance();
+            MyPowerConStr db = baseContext;
             {
                 dv = db.Base_Dictionary_Value.FirstOrDefault(f => string.Equals(f.Code, dicValueCode) && string.Equals(f.Base_Dictionary_Code, dicCode));
             }
@@ -63,7 +63,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Save(Base_Dictionary_Value model)
         {
-            int result = Base_Dictionary_ValueBLL.Save(model);
+            int result = Base_Dictionary_ValueBLL.Save(model, baseContext);
             return Json(result);
         }
 
@@ -73,7 +73,7 @@ namespace MyPower.Controllers
         [AllowAnonymous]
         public JsonResult Delete(Base_Dictionary_Value model)
         {
-            int result = Base_Dictionary_ValueBLL.Delete(model);
+            int result = Base_Dictionary_ValueBLL.Delete(model, baseContext);
             return Json(result);
         }
     }

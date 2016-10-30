@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "角色编辑";
+    Layout = "~/Views/Shared/_ContentManage.cshtml";
+}
+@model MyPower.DB.Base_Usr
+@Html.HiddenFor(f => f.ID)
+
+<script src="/layer-v2.2/layer.js"></script>
+<script type="text/javascript">
+    function lay() {
+        layer.open({
+            type: 2,
+            shade: false,
+            area: ['400px','400px'],
+            maxmin: true,
+
+            content: '/Control/DepartMent.html',
+            zIndex: layer.zIndex, //重点1
+            success: function (layero) {
+                layer.setTop(layero); //重点2
+            }
+        });
+    }
+</script>
+<div class="Panel-Table-Main ">
+    <div>
+        <div>
+            工号:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.JobCode, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+        <div>
+            登录名:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Account, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+    </div>
+    <div>
+        <div>
+            用户名:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+        <div>
+            密码:
+        </div>
+        <div>
+            @Html.PasswordFor(p => p.Pwd, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+    </div>
+    <div>
+        <div>
+            性别:
+        </div>
+        <div>
+            @Html.TextBoxFor(f => f.Sex, new Dictionary<string, object>() { { "class", "easyui-combobox" }, { "data-options", "required:true" }, { "style", "width:200px" } })
+        </div>
+        <div>
+            部门:
+        </div>
+        <div onclick="lay()" style=" cursor:pointer">
+            <input type="text" name="DeptName" readonly="readonly" class="easyui-textbox" style="width:200px" />
+            <input type="hidden" name="DeptId" />
+        </div>
+    </div>
+    <div>
+        <div>
+            备注:
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Remark, new Dictionary<string, object>() { { "class", "easyui-textbox" }, { "data-options", "multiline:true" }, { "style", "height:60px;width:300px" } })
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Save() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Usr/Save",
+            data: GetParam(),
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("用户管理");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('保存失败', '保存失败!');
+                }
+            }
+        });
+    }
+
+    function Delete() {
+        $.ajax({
+            type: "POST",
+            url: "/Base_Usr/Delete",
+            data: { "id": $("#ID").val() },
+            success: function (msg) {
+                if (msg == "1") {
+                    window.parent.removePanelByTitle("用户管理");
+                    CancelTab();
+                }
+                else {
+                    $.messager.alert('删除失败', '删除失败!');
+                }
+            }
+        });
+    }
+
+
+    $(function () {
+        $('#Sex').combobox(
+           {
+               required: true,
+               url: '/Base_Dictionary/GetDicValue/2016001',
+               valueField: 'code',
+               textField: 'Name'
+           });
+    })
+</script>

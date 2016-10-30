@@ -23,7 +23,7 @@ namespace MyPower.Controllers
             ActionResult result = null;
             if (model != null)
             {
-                SessionUser SUser = Base_UsrBLL.GetByAccountPwd(model.Account, model.pwd);
+                SessionUser SUser = Base_UsrBLL.Instance(baseContext).GetByAccountPwd(model.Account, model.pwd);
                 if (SUser != null)
                 {
                     SetSessionUser(SUser);

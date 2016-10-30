@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Page-Enter" content="revealTrans(Duration=0.5,Transition=3)" />
+    <meta name="Author" content="戴冬成，daidch2011@126.com">
+    <meta name="Copyright" content="本页版权归 daidch2011@126.com 所有。All Rights Reserved">
+    <title>@ViewBag.Title-系统管理平台</title>
+    @Styles.Render("~/jquery-easyui-1.4.4/css")
+    @Scripts.Render("~/jquery-easyui-1.4.4/js")
+    <link href="/Content/Form.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function CancelTab() {
+            window.parent.removePanel();
+        }
+
+        ///清除控件内容
+        function funClear() {
+            var txts = document.getElementsByTagName("input");
+            for (var i = 0; i < txts.length; i++) {
+                if (txts[i].type == "text" || txts[i].type == "checkbox") {
+                    txts[i].value = "";
+                }
+            }
+        }
+
+        //添加 工具条方法
+        $(function () {
+            $("#a_save")
+            .bind("click", function () {
+                Save();//保存 需要实现
+            });
+
+            $("#a_clear")
+            .bind("click", function () {
+                funClear();
+            });
+
+            $("#a_remove")
+            .bind("click", function () {
+                Delete();//删除需要实现
+            });
+
+            $("#a_cancel")
+            .bind("click", function () {
+                CancelTab();
+            });
+        })
+
+        ///生成请求参数
+        function GetParam()
+        {
+            var param = {};
+            $("input[type='hidden']")
+            .each(function (index, domEle) {
+                if(this.name!='')
+                {
+                    param[this.name] = this.value;
+                }
+            })
+            return param;
+        }
+    </script>
+    <style type="text/css">
+        div .ButtonMenu {
+            margin-top:5px;
+            margin-left:5px;
+            margin-right:5px;
+            height: 34px;
+            padding-top: 2px;
+            background-color: #ECF5F8;
+            text-align:right;
+            padding-right:20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+        <div class="easyui-layout" data-options="fit:true,border:false">
+            <div data-options="region:'north'" class="ButtonMenu">
+                <a id="a_save" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Save</a>
+                <a id="a_clear" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">Clear</a>
+                <a id="a_remove" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+                <a id="a_cancel" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'">Cancel</a>
+            </div>
+            <div data-options="region:'center',fit:true,border:false">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>

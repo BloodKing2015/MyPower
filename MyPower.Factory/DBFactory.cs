@@ -22,28 +22,28 @@ namespace MyPower.Factory
     {
         public const string MyPowerConStrName = "MyPowerConStr";
         MyPowerConStr db = null;
-        public void CreateMyPowerConStr()
-        {
-            db = new MyPowerConStr();
-        }
+        //public void CreateMyPowerConStr()
+        //{
+        //    db = new MyPowerConStr();
+        //}
 
-        public static MyPowerConStr Instance()
-        {
-            MyPowerConStr db = null;
-            DBFactory df = HttpContext.Current.Session[DBFactory.MyPowerConStrName] as DBFactory;
-            if (df != null)
-            {
-                db = df.db;
-            }
-            return db;
-        }
+        //public static MyPowerConStr Instance()
+        //{
+        //    MyPowerConStr db = null;
+        //    DBFactory df = HttpContext.Current.Session[DBFactory.MyPowerConStrName] as DBFactory;
+        //    if (df != null)
+        //    {
+        //        db = df.db;
+        //    }
+        //    return db;
+        //}
 
-        public void CloseMyPowerConStr()
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-        }
+        //public void CloseMyPowerConStr()
+        //{
+        //    if (db != null)
+        //    {
+        //        db.Dispose();
+        //    }
+        //}
     }
 }
